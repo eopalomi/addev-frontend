@@ -1,0 +1,53 @@
+/* .height-tv {
+    height: 420px;
+    background: darkorchid;
+}
+
+.ui-tabs-panel {
+    height: 100%;
+ } */
+
+/* .ui-tabs.ui-tabs-top > .ui-tabs-nav li {
+    height: 200px;
+} */
+
+/* :host ::ng-deep .p-tabview .p-tabview-panels {
+    height: 80vh;
+    background: yellow;
+} */
+
+/* #editor {
+    position: absolute; 
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+} */
+
+:host .fullscreen {
+    height: auto;
+    width: auto;
+    border: 0;
+    margin: 0;
+    position: fixed !important;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+}
+
+:host .normal {
+    height: 80vh !important;
+    width: 100%;
+}
+
+:host ::ng-deep .p-tabview-panels {
+    padding: 0rem !important;
+}
+
+
+
+
+
+

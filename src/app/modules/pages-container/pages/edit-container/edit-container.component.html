@@ -1,0 +1,62 @@
+<div class="container">
+    <div class="p-grid p-m-0 p-jc-center" [style.height.%]='100'>
+        <div class="p-col-12 p-p-0">
+            <p-toolbar>
+                <div class="p-toolbar-group-left">
+                    <i class="p-toolbar-separator pi pi-home p-mr-2 ico" style="vertical-align: middle"></i>
+                    <i class="p-toolbar-separator pi pi-angle-right p-mr-2 ico" style="vertical-align: middle"></i>
+                    <div class="p-text-bold">CONTENEDOR</div>
+                    <i class="p-toolbar-separator pi pi-angle-right p-mr-2 ico" style="vertical-align: middle"></i>
+                    <div class="p-text-bold">{{contenName}}</div>
+                </div>
+                
+                <div class="p-toolbar-group-right">
+                    <p-button icon="pi pi-save" class="p-mr-2" (click)="guardar()" styleClass="p-button-info"></p-button>
+                    <p-splitButton label="Options" icon="pi pi-check" [model]="options" styleClass="p-button-info p-mr-2"></p-splitButton>
+                </div>
+            </p-toolbar>
+        </div>
+        <div class="p-col-2 p-p-0 options">
+            <!-- <p-panel header="Paginas"  [toggleable]="true">
+                <p-panelMenu [model]="items" [style]="{'width':'100%'}"></p-panelMenu>
+            </p-panel> -->
+            <p-panel header="Paginas"  [toggleable]="true">
+                <!-- <p-panelMenu [model]="paginas" [style]="{'width':'100%'}"></p-panelMenu> -->
+                <p-listbox [options]="optionsNew" [(ngModel)]="optionsNewSelected" (click)="setPaginas(optionsNewSelected)" optionLabel="no_compag" [style]="{'width':'100%'}">
+                    <ng-template let-pagina pTemplate="item">
+                            <i class="pi pi-file p-mr-1" style="vertical-align: middle"></i>{{pagina.no_compag}}
+                    </ng-template>
+                </p-listbox>                
+            </p-panel>
+        </div>
+
+        <div class="p-col-10 p-p-0 main-content">
+            <p-tabView [(activeIndex)]="indexTab">
+                <p-tabPanel rightIcon="pi-bookmark">
+                    <ng-template pTemplate = "header" >
+                        <i *ngIf="existsValpag"  class="pi pi-copy"></i>
+                        <i *ngIf="!existsValpag" class="pi pi-times-circle" [style.color]="'red'"></i>
+                        <span class="p-pl-2">Script Carga</span>
+                    </ng-template>
+                    <div #editor1 (keydown)="onKeydown($event)" [ngClass]="[fullScreen ? 'fullscreen' : 'normal']" ></div>
+                </p-tabPanel>
+                <p-tabPanel header="Header II">
+                    <ng-template pTemplate = "header">
+                        <i *ngIf="existsPropag"  class="pi pi-copy"></i>
+                        <i *ngIf="!existsPropag" class="pi pi-times-circle" [style.color]="'red'"></i>
+                        <span class="p-pl-2">Script Proceso</span>
+                    </ng-template>
+                    <div #editor2 (keydown)="onKeydown($event)" [ngClass]="[fullScreen ? 'fullscreen' : 'normal']" ></div>
+                </p-tabPanel>
+                <p-tabPanel header="Header III">
+                    <ng-template pTemplate = "header">
+                        <i class="pi pi-times-circle" [style.color]="'red'"></i>
+                        <span class="p-pl-2">Script Otros</span>
+                    </ng-template>
+                    <div #editor3 (keydown)="onKeydown($event)" [ngClass]="[fullScreen ? 'fullscreen' : 'normal']" ></div>
+                </p-tabPanel>
+            </p-tabView>
+        </div>
+
+    </div>
+</div>

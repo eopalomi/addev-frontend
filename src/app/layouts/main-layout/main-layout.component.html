@@ -1,0 +1,19 @@
+<div class="p-grid p-p-0 p-m-0" [style.width.%]="100">
+    <div class="p-col-12 p-p-0" [style.width.%]="100">
+        <p-menubar [model]="menuList" >
+            <ng-template pTemplate="start">
+                <img src="assets/designstyle-night2.png" height="32" class="p-mr-2">
+            </ng-template>
+            <ng-template pTemplate="end">
+                <input type="text" pInputText placeholder="Buscar">
+            </ng-template>
+        </p-menubar>
+    </div>
+</div>
+
+<div [style.min-height.%]='94' [style.width.%]="100">
+    
+        <router-outlet></router-outlet>
+    
+</div>
+<p-toast></p-toast>

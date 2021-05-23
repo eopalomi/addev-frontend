@@ -1,0 +1,56 @@
+:host .fullscreen {
+    height: 100vh !important;
+    width: auto;
+    border: 0;
+    margin: 0;
+    position: fixed !important;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+}
+
+:host .fullscreen-single {
+    height: 100vh !important;
+}
+
+
+:host .normal {
+    height: 82vh !important;
+    width: 90%;
+}
+
+:host .options{
+    /* background: green;  */
+    height: 100%;
+    
+}
+
+:host .main-content{
+    /* background: blue;  */
+    height: 100%;
+}
+
+:host .container {
+    background: var(--surface-e);
+    color: var(--text-color);
+    height:750px;
+    /* background: goldenrod; */
+}
+
+:host ::ng-deep .p-panel-content{
+    padding: 0;
+}
+
+:host .ico {
+    color: var(--text-color);;
+}
+
+:host ::ng-deep .p-tabview-panels {
+    padding: 0rem !important;
+}
+
+::ng-deep .menucus{
+    background: #5393bc !important;
+}

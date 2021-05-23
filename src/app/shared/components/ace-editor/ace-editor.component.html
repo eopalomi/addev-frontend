@@ -1,0 +1,27 @@
+<p-tabView>
+    <p-tabPanel>
+        <ng-template pTemplate = "header">
+            <i class="pi pi-calendar"></i>
+            <span class="p-pl-2">Script Carga</span>
+        </ng-template>
+            <!-- <ace-editor (keydown)="onKeydown($event)" [(text)]="text" [ngClass]="[fullScreen ? 'fullscreen' : 'normal']" ></ace-editor> -->
+            <div #editor1 (keydown)="onKeydown($event)" [ngClass]="[fullScreen ? 'fullscreen' : 'normal']" ></div>
+    </p-tabPanel>
+    <p-tabPanel header="Header II">
+        <ng-template pTemplate = "header">
+            <i class="pi pi-user"></i>
+            <span class="p-pl-2">Script Proceso</span>
+        </ng-template>
+            <!-- <ace-editor (keydown)="onKeydown($event)" #editor [(text)]="text" style="height:650px;"></ace-editor> -->
+            <div #editor2 (keydown)="onKeydown($event)" [ngClass]="[fullScreen ? 'fullscreen' : 'normal']" ></div>
+    </p-tabPanel>
+    <p-tabPanel header="Header III">
+        <ng-template pTemplate = "header">
+            <i class="pi pi-cog"></i>
+            <span class="p-pl-2">Script Otros</span>
+        </ng-template>
+        <div #editor3 (keydown)="onKeydown($event)" [ngClass]="[fullScreen ? 'fullscreen' : 'normal']" ></div>
+    </p-tabPanel>
+</p-tabView>
+
+
