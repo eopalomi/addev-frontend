@@ -1,0 +1,51 @@
+<div [style.height.%]="topSpacing"></div>
+
+<div class="p-d-flex p-jc-center">
+    <p-card [style.width]="widthLogin">
+        <ng-template pTemplate="header">
+            <img alt="Card" src="assets/usercard.png">
+        </ng-template>
+
+        <form class="p-grid p-fluid p-d-flex p-jc-center" (ngSubmit)='login(loginForm)' #loginForm="ngForm">
+            <!-- <div class="p-text-center p-login-title p-my-3">INICIAR SESIÓN</div> -->
+            <div class="p-col-11 p-md-11">
+                <div class="p-text-center p-login-title p-my-1">INICIAR SESION</div>
+                <!-- <label class="p-login-fields">Ingrese usuario y contraseña</label> -->
+            </div>    
+            <div class="p-col-11 p-md-11">
+                <label class="p-login-fields">Usuario</label>
+                <div class="p-inputgroup p-mt-2">
+                    <input type="text" name="usuario" [(ngModel)]="usuario.user" pInputText placeholder="Ingrese usuario">         
+                    <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                </div>
+            </div>
+            <div class="p-col-11 p-md-11">
+                <label class="p-login-fields">Contraseña</label>
+                <div class="p-inputgroup p-mt-2">
+                    <input name="password" [(ngModel)]="usuario.password" type="password" pInputText placeholder="Ingrese contraseña">         
+                    <span class="p-inputgroup-addon"><i class="pi pi-key"></i></span>
+                </div>
+            </div>
+            <!-- <div class="p-col-11 p-md-11 p-mt-2">
+                <div class="p-field-checkbox">
+                    <p-checkbox inputId="binary" binary="true"></p-checkbox>
+                    <label class="p-login-remember" for="binary">Recordarme</label>
+                </div>
+            </div> -->
+            <div class="p-col-11 p-md-11">
+                <p-button styleClass="p-login-button" label="Log In" type="submit" [icon]="icoLoading" [ngClass]="{'button-disabled': loading}"></p-button>
+            </div>
+            <div class="p-text-center p-login-recover p-mt-4 p-mb-2">
+                <i class="pi pi-lock p-mr-2"></i><a style="color: inherit; text-decoration: inherit;" href="javacript:void(0)">Olvidaste tu contraseña?</a>
+            </div>
+        </form>
+    </p-card>
+    
+</div>
+<div class="p-d-flex p-jc-center">
+    <div class="p-login-made p-mt-6">No tiene una cuenta? <a href="" style="color:#556EE6; text-decoration: inherit;">Registrese</a></div>
+</div>
+<div class="p-d-flex p-jc-center">
+    <div class="p-login-made p-mt-3">© 2021 WebInk. Todos los derechos reservados</div>
+</div>
+<p-toast position="bottom-center"></p-toast>

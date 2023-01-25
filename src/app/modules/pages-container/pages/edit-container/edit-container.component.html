@@ -50,7 +50,8 @@
                 </p-tabPanel>
                 <p-tabPanel header="Header III">
                     <ng-template pTemplate = "header">
-                        <i class="pi pi-times-circle" [style.color]="'red'"></i>
+                        <i *ngIf="existsPropos"  class="pi pi-copy"></i>
+                        <i *ngIf="!existsPropos" class="pi pi-times-circle" [style.color]="'red'"></i>
                         <span class="p-pl-2">Script Otros</span>
                     </ng-template>
                     <div #editor3 (keydown)="onKeydown($event)" [ngClass]="[fullScreen ? 'fullscreen' : 'normal']" ></div>

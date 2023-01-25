@@ -50,6 +50,17 @@ export class PagesContainerService {
     return this.http.get(`${this.url}/pagina-propag`, { params: httpParams });
   };
 
+  // Obtener el Pos JS
+  getPropos(id_pagina: string){
+    // Inicializar Objeto Parametros
+    let httpParams = new HttpParams();
+
+    // Crear Query Params
+    httpParams = httpParams.append('id_pagina', id_pagina);
+
+    return this.http.get(`${this.url}/pagina-propos`, { params: httpParams });
+  };
+
   // DESDE REST API
   getConfigConten(nu_conten: string){
     // Inicializar Objeto Parametros
@@ -85,5 +96,18 @@ export class PagesContainerService {
 
     //return this.http.post(`${this.url}/pagina-valpag`, null, { params: httpParams });
     return this.http.post(`${this.url}/pagina-valpag`, {js_valpag, id_pagina});
+  };
+
+  // Actualiza el ProposJS
+  actualizarPropos(id_pagina: string, js_propos){
+    // Inicializar Objeto Parametros
+    // let httpParams = new HttpParams();
+
+    // Crear Query Params
+    // httpParams = httpParams.append('id_pagina', id_pagina);
+    // httpParams = httpParams.append('js_propag', js_propag);
+
+    //return this.http.post(`${this.url}/pagina-propag`, null, { params: httpParams });
+    return this.http.post(`${this.url}/pagina-propos`, {js_propos, id_pagina});
   };
 }

@@ -20,6 +20,7 @@ interface Compag{
 export class EditContainerComponent implements OnInit, AfterViewInit {
   @ViewChild("editor1") private editorValpag: ElementRef<HTMLElement>;
   @ViewChild("editor2") private editorPropag: ElementRef<HTMLElement>;
+  @ViewChild("editor3") private editorPropos: ElementRef<HTMLElement>;
 
   indexTab: number = 0;
 
@@ -34,9 +35,11 @@ export class EditContainerComponent implements OnInit, AfterViewInit {
   contenName: string;
   valpag: string;
   propag: string;
+  propos: string;
 
   existsValpag: boolean = false;
   existsPropag: boolean = false;
+  existsPropos: boolean = false;
 
   numeroPagina: string;
 
@@ -93,6 +96,23 @@ export class EditContainerComponent implements OnInit, AfterViewInit {
       this.propag = aceEditoreditorPropag.getValue();
       // console.log("editorPropag", this.propag);
     });
+
+    // COnfiguracion del editorPropos
+    const aceEditoreditorPropos = ace.edit(this.editorPropos.nativeElement);
+
+    aceEditoreditorPropos.session.setValue("");
+    aceEditoreditorPropos.setTheme('ace/theme/dracula');
+    aceEditoreditorPropos.session.setMode('ace/mode/javascript');
+    aceEditoreditorPropos.setOption("showPrintMargin", false);
+    aceEditoreditorPropos.setOption("fontSize", 12);
+    aceEditoreditorPropos.setOption("useSoftTabs", true);
+    aceEditoreditorPropos.setOption("tabSize", 3);
+
+
+    aceEditoreditorPropos.on("change", () => {
+      this.propos = aceEditoreditorPropos.getValue();
+      // console.log("editorPropag", this.propag);
+    });
   }
   
   setPaginas (id_pagina: Compag){
@@ -116,6 +136,16 @@ export class EditContainerComponent implements OnInit, AfterViewInit {
       const aceEditoreditorPropag = ace.edit(this.editorPropag.nativeElement);
       aceEditoreditorPropag.setValue(this.propag);
       aceEditoreditorPropag.clearSelection();
+    })
+
+    this.pagesContainerService.getPropos(id_pagina.co_compag).subscribe((res: any)=>{
+      //  console.log("Script Proceso", res)
+      this.propos = res.propos;
+      this.existsPropos = res.propos.length > 0 ? true : false;
+
+      const aceEditoreditorPropos = ace.edit(this.editorPropos.nativeElement);
+      aceEditoreditorPropos.setValue(this.propos);
+      aceEditoreditorPropos.clearSelection();
     })
   }
 
@@ -141,8 +171,10 @@ export class EditContainerComponent implements OnInit, AfterViewInit {
           //   command: () => {this.setPaginas(element.pagina_id);}
           // })
           let typePage = 
-            element.pagina_type === 'F' ? '[Form]'  : 
-            element.pagina_type === 'T' ? '[Table]' : '';
+            element.pagina_type === 'F'    ? '[Form]'  : 
+            element.pagina_type === 'T'    ? '[Table]' : 
+            element.pagina_type === 'C01'  ? '[Card]'  : 
+            element.pagina_type === 'CH01' ? '[Chart]' : '';
 
           newCompag.push({
             co_compag: element.pagina_id,
@@ -158,10 +190,6 @@ export class EditContainerComponent implements OnInit, AfterViewInit {
       })
     })
 
-    
-
-    
-    
     this.options = [
       {label: 'Update', icon: 'pi pi-refresh', command: () => {this.accion();}},
       {label: 'Delete', icon: 'pi pi-times', command: () => {this.accion();}},
@@ -170,103 +198,7 @@ export class EditContainerComponent implements OnInit, AfterViewInit {
       {separator: true},
       {label: 'Atras', icon: 'pi pi-arrow-left', command: () => {this.accion();}},
     ];
-    
-    this.items = [
-      {
-        label: 'File',
-        icon: 'pi pi-fw pi-file'
-      },
-      {
-        label: 'Edit',
-        icon: 'pi pi-fw pi-pencil',
-        items: [
-          {
-            label: 'Left',
-            icon: 'pi pi-fw pi-align-left'
-          },
-          {
-            label: 'Right',
-            icon: 'pi pi-fw pi-align-right'
-          },
-          {
-            label: 'Center',
-            icon: 'pi pi-fw pi-align-center'
-          },
-          {
-            label: 'Justify',
-            icon: 'pi pi-fw pi-align-justify'
-          }
-        ]
-      },
-      {
-        label: 'Users',
-        icon: 'pi pi-fw pi-user',
-        items: [
-          {
-            label: 'New',
-            icon: 'pi pi-fw pi-user-plus',
-
-          },
-          {
-            label: 'Delete',
-            icon: 'pi pi-fw pi-user-minus',
-          },
-          {
-            label: 'Search',
-            icon: 'pi pi-fw pi-users',
-            items: [
-              {
-                label: 'Filter',
-                icon: 'pi pi-fw pi-filter',
-                items: [
-                  {
-                    label: 'Print',
-                    icon: 'pi pi-fw pi-print'
-                  }
-                ]
-              },
-              {
-                icon: 'pi pi-fw pi-bars',
-                label: 'List'
-              }
-            ]
-          }
-        ]
-      },
-      {
-        label: 'Events',
-        icon: 'pi pi-fw pi-calendar',
-        items: [
-          {
-            label: 'Edit',
-            icon: 'pi pi-fw pi-pencil',
-            items: [
-              {
-                label: 'Save',
-                icon: 'pi pi-fw pi-calendar-plus'
-              },
-              {
-                label: 'Delete',
-                icon: 'pi pi-fw pi-calendar-minus'
-              }
-            ]
-          },
-          {
-            label: 'Archieve',
-            icon: 'pi pi-fw pi-calendar-times',
-            items: [
-              {
-                label: 'Remove',
-                icon: 'pi pi-fw pi-calendar-minus'
-              }
-            ]
-          }
-        ]
-      }
-    ];
-
   }
-
 
   accion() {
     console.log("accion");
@@ -321,6 +253,17 @@ export class EditContainerComponent implements OnInit, AfterViewInit {
         this.pagesContainerService.actualizarPropag(this.numeroPagina, this.propag).subscribe( res => {
           this.existsPropag = this.propag.length > 0 ? true : false;
           this.messagepageService.showAlert('SCRIPT DE PROCESO','Se guardo correctamente el script','success');
+        }, (err)=>{
+          this.messagepageService.showAlert('Mensaje de Error', err, 'error');
+        });
+      };
+    }
+
+    if (this.numeroPagina && this.indexTab == 2){
+      if (this.indexTab == 2) {
+        this.pagesContainerService.actualizarPropos(this.numeroPagina, this.propos).subscribe( res => {
+          this.existsPropos = this.propos.length > 0 ? true : false;
+          this.messagepageService.showAlert('SCRIPT DE POST','Se guardo correctamente el script','success');
         }, (err)=>{
           this.messagepageService.showAlert('Mensaje de Error', err, 'error');
         });
