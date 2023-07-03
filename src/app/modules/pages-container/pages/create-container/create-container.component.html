@@ -1,0 +1,105 @@
+
+<br>
+<p-card header="Create New Container" [style]="{ width: '700px', margin: '0 auto', 'max-width': '100%'}">
+    <!-- <ng-template pTemplate="header">
+        <img alt="Card" src="https://primefaces.org/cdn/primeng/images/usercard.png" />
+    </ng-template> -->
+    <!-- <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque
+        quas!
+    </p> -->
+    <p-divider align="left">
+        <div class="inline-flex align-items-center">
+            <i class="pi pi-desktop mr-2"></i>
+            <b>Container Info</b>
+        </div>
+    </p-divider>
+    <div class="formgrid grid">
+        <div class="field col-12 md:col-4">
+            <label htmlFor="username">container name</label>
+            <input [style]="{'width':'100%'}" pInputText id="username" placeholder="Enter container name" aria-describedby="username-help" [(ngModel)]="value" />
+        </div>
+        <div class="field col-12 md:col-2">
+            <label for="column1">justify-content</label>
+            <p-dropdown [style]="{'width':'100%'}" id="column1" [(ngModel)]="selectedJustifyContent" [options]="justifyContentOptions" optionLabel="name"></p-dropdown>
+        </div>
+        <div class="field col-12 md:col-2">
+            <label for="column2">gap&nbsp;</label>
+            <p-dropdown [style]="{'width':'100%'}" id="column2" [(ngModel)]="selectedGap" [options]="gapOptions" optionLabel="name"></p-dropdown>
+        </div>
+        <div class="field col-12 md:col-2">
+            <label for="column3">columns</label>
+            <p-dropdown [style]="{'width':'100%'}" id="column3" [(ngModel)]="selectedContainerColumn" [options]="containerColumnOptions" optionLabel="name"></p-dropdown>
+        </div>
+        <div class="field col-12 md:col-2">
+            <label for="column4">rows&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <p-dropdown [style]="{'width':'100%'}" id="column4" [(ngModel)]="selectedContainerRow" [options]="containerRowOptions" optionLabel="name"></p-dropdown>
+        </div>
+    </div>
+    <p-divider align="left">
+        <div class="inline-flex align-items-center">
+            <i class="pi pi-th-large mr-2"></i>
+            <b>Add Grid</b>
+        </div>
+    </p-divider>
+    <div class="formgrid grid">
+        <div class="field col-12 md:col-2">
+            <label for="column1">justify-content</label>
+            <p-dropdown [style]="{'width':'100%'}" id="column1" [(ngModel)]="selectedJustifyContent" [options]="justifyContentOptions" optionLabel="name"></p-dropdown>
+        </div>
+        <div class="field col-12 md:col-2">
+            <label for="column1">justify-content</label>
+            <p-dropdown [style]="{'width':'100%'}" id="column1" [(ngModel)]="selectedJustifyContent" [options]="justifyContentOptions" optionLabel="name"></p-dropdown>
+        </div>
+        <div class="field col-12 md:col-2">
+            <label for="column2">gap&nbsp;</label>
+            <p-dropdown [style]="{'width':'100%'}" id="column2" [(ngModel)]="selectedGap" [options]="gapOptions" optionLabel="name"></p-dropdown>
+        </div>
+        <div class="field col-12 md:col-2">
+            <label for="column3">columns</label>
+            <p-dropdown [style]="{'width':'100%'}" id="column3" [(ngModel)]="selectedContainerColumn" [options]="containerColumnOptions" optionLabel="name"></p-dropdown>
+        </div>
+        <div class="field col-12 md:col-2">
+            <label for="column4">rows&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <p-dropdown [style]="{'width':'100%'}" id="column4" [(ngModel)]="selectedContainerRow" [options]="containerRowOptions" optionLabel="name"></p-dropdown>
+        </div>
+        <div class="field col-12 md:col-2">
+            <label for="column6">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <p-button [style]="{'width':'100%'}" for="column6" label="Add" icon="pi pi-plus"></p-button>
+        </div>
+    </div>
+</p-card>
+
+<br>
+
+<p-card subheader="CONTAINER GRID LIST" [style]="{ width: '700px', margin: '0 auto', 'max-width': '100%'}">
+    <p-table 
+        [value]="products" 
+        [tableStyle]="{ 'width': '660px', margin:'0 auto' }" 
+        [paginator]="true"
+        [rows]="8"
+        [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    >
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Quantity</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+            <tr>
+                <td>{{ product.code }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.category }}</td>
+                <td>{{ product.quantity }}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <ng-template pTemplate="footer">
+        <p-button label="Next" icon="pi pi-chevron-right" ></p-button>
+    </ng-template>
+</p-card>
+
