@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 //Librerias
-import { NgPrimefacesModule } from '../shared/libraries/ng-primefaces.module';
+// import { NgPrimefacesModule } from '../shared/libraries/ng-primefaces.module';
 
 //Modulos
 import { SharedModule } from '../shared/shared.module';

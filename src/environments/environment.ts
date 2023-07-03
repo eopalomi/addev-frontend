@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  urlPages: 'http://localhost:3000'
+  //urlPages: 'http://localhost:3000'
+  urlPages: 'http://165.227.68.255:52564'
   //urlPages: 'https://dev01-api-rest.herokuapp.com'
 };
 

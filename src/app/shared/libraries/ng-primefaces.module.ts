@@ -16,7 +16,7 @@ import { ToolbarModule} from 'primeng/toolbar';
 import { TableModule } from 'primeng/table';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { PanelModule } from 'primeng/panel';
-import { ToastModule } from 'primeng/toast';
+// import { ToastModule } from 'primeng/toast';
 import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
@@ -55,7 +55,7 @@ import { DropdownModule } from 'primeng/dropdown';
     PanelMenuModule,
     PanelModule,
     SplitButtonModule,
-    ToastModule,
+    // ToastModule,
     ToolbarModule
   ]
 })
