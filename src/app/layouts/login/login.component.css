@@ -1,0 +1,40 @@
+.button-disabled {
+    opacity: 0.8;
+    cursor: default !important;
+    pointer-events: none;
+}
+
+.p-login-fields	{
+    font-size: 13px !important;
+    color: #7f8387 !important;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+}
+
+.p-login-remember {
+    margin-left: 5px;
+    color: #7f8387 !important;
+    font-size: 13px !important;
+    font-weight: 400;
+    font-family: 'Poppins', sans-serif;
+}
+
+.p-login-title {
+    color: #7f8387 !important;
+    font-size: 15px !important;
+    font-weight: 500;
+    font-family: 'Poppins', sans-serif;
+}
+
+.p-login-recover {
+    font-size: 12px !important;
+    color: #7f8387 !important;
+    font-weight: 200;
+    font-family: 'Poppins', sans-serif;
+}
+
+.p-login-made {
+    font-size: 12px !important;
+    color: #7f8387 !important;
+    font-weight: 500;
+}

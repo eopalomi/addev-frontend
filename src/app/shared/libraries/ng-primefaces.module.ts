@@ -19,6 +19,9 @@ import { PanelModule } from 'primeng/panel';
 import { ToastModule } from 'primeng/toast';
 import { DropdownModule } from 'primeng/dropdown';
 import { DividerModule } from 'primeng/divider';
+import {CheckboxModule} from 'primeng/checkbox';
+import { RippleModule } from 'primeng/ripple';
+import { ColorPickerModule } from 'primeng/colorpicker';
 
 @NgModule({
   declarations: [],
@@ -40,7 +43,10 @@ import { DividerModule } from 'primeng/divider';
     SplitButtonModule,
     ToastModule,
     ToolbarModule,
-    DividerModule
+    DividerModule,
+    CheckboxModule,
+    RippleModule,
+    ColorPickerModule
   ],
   exports:[
     CardModule,
@@ -59,7 +65,10 @@ import { DividerModule } from 'primeng/divider';
     SplitButtonModule,
     ToastModule,
     ToolbarModule,
-    DividerModule
+    DividerModule,
+    CheckboxModule,
+    RippleModule,
+    ColorPickerModule
   ]
 })
 export class NgPrimefacesModule { }

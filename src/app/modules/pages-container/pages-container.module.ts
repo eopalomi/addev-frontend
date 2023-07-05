@@ -12,11 +12,12 @@ import { FormsModule } from '@angular/forms';
 import { SearchContainerComponent } from './pages/search-container/search-container.component';
 import { EditContainerComponent } from './pages/edit-container/edit-container.component';
 import { CreateContainerComponent } from './pages/create-container/create-container.component';
+import { CreatePageComponent } from './pages/create-page/create-page.component';
 
 @NgModule({
   declarations: [
     SearchContainerComponent, 
-    EditContainerComponent, CreateContainerComponent
+    EditContainerComponent, CreateContainerComponent, CreatePageComponent
   ],
   imports: [
     CommonModule,

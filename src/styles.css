@@ -7,7 +7,7 @@ html, body{
     margin: 0;
     height: 100%;
     font-size: 12px;
-    background-color: var(--surface-b);
+    background-color: var(--surface-ground);
     font-family: var(--font-family);
     padding: 0%;
 }

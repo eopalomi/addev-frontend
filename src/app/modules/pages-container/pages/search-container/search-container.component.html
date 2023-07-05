@@ -1,21 +1,24 @@
-<div class="container">
-    <div class="p-grid p-jc-center">
-        <p-card class="p-my-5" header="Busqueda de Contenedor" [style]="{'width': '50rem'}">
-            <div class="p-fluid p-formgrid p-grid p-jc-center p-ai-center p-mt-2">
-                <div class="p-field p-col-12 p-md-5">
-                    <p-dropdown inputId="state" [options]="opciones" [(ngModel)]="selectedtipoBusq" placeholder="Seleccione" optionLabel="no_compag"></p-dropdown>
+
+    <!-- <div class="flex justify-content-center flex-wrap w-full"> -->
+
+        <p-card header="Busqueda de Contenedor" [style]="{'width': '50rem', margin: '0 auto', 'max-width':'100%'}">
+            <div class="formgrid grid w-full justify-content-center align-items-center">
+                <div class="field col-12 md:col-5">
+                    <p-dropdown styleClass="w-full" inputId="state" [options]="opciones" [(ngModel)]="selectedtipoBusq" placeholder="Seleccione" optionLabel="no_compag"></p-dropdown>
                 </div>
-                <div class="p-field p-col-12 p-md-5">
-                    <input id="datoBusqueda" type="text" [(ngModel)]="valorBusqueda" (keyup.enter)="searchConten()" placeholder="Ingrese busqueda"  pInputText> 
+                <div class="field col-12 md:col-5">
+                    <input type="text" pInputText id="datoBusqueda"  style="width: 100%;"  [(ngModel)]="valorBusqueda" (keyup.enter)="searchConten()" placeholder="Ingrese busqueda"  > 
                 </div>
-                <div class="p-field p-col-4 p-md-2">
-                    <button pButton pRipple (click)="searchConten()" type="button" label="Buscar"></button>
+                <div class="field col-4 md:col-2">
+                    <p-button styleClass="w-full" (click)="searchConten()" type="button" label="Buscar"></p-button>
                 </div>
             </div>
         </p-card>
-    </div>
 
-    <div *ngIf="contenedores.length > 0" class="p-grid p-jc-center">
+    <!-- </div> -->
+    <br>
+    <p-card *ngIf="contenedores.length > 0" [style]="{'width': '50rem', margin: '0 auto', 'max-width':'100%'}">
+    <!-- <div *ngIf="contenedores.length > 0" class="formgrid grid justify-content-center" [style]="{'max-width':'100%'}"> -->
         <p-table class="p-shadow-2" [style.width.rem]="70" [value]="contenedores" selectionMode="single" [(selection)]="contenedorSeleccionado" dataKey="numero"
             (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)">
             <ng-template pTemplate="header">
@@ -37,5 +40,5 @@
                 </tr>
             </ng-template>
         </p-table>
-    </div>
-</div>
+    <!-- </div> -->
+    </p-card>

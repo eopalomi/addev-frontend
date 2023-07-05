@@ -1,5 +1,5 @@
-<div class="p-grid p-p-0 p-m-0" [style.width.%]="100">
-    <div class="p-col-12 p-p-0" [style.width.%]="100">
+<div class="grid p-0 m-0" [style.width.%]="100">
+    <div class="col-12 p-0" [style.width.%]="100">
         <p-menubar [model]="menuList" >
             <ng-template pTemplate="start">
                 <img src="assets/designstyle-night2.png" height="32" class="p-mr-2">
@@ -11,7 +11,7 @@
     </div>
 </div>
 
-<div [style.min-height.%]='94' [style.width.%]="100">
+<div [ngStyle]="{height: 'calc(100% - 66px)'}" [style.width.%]="100" style="padding: 10px;">
     <router-outlet></router-outlet>
 </div>
 

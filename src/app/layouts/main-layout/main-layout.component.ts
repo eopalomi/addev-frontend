@@ -35,11 +35,13 @@ export class MainLayoutComponent implements OnInit {
             items: [
               {
                 label: 'Pagina',
-                icon: 'pi pi-bookmark'
+                icon: 'pi pi-bookmark',
+                routerLink: ['/main/page/create']
               },
               {
                 label: 'Contenedor',
-                icon: 'pi pi-fw pi-bookmark'
+                icon: 'pi pi-fw pi-bookmark',
+                routerLink: ['/main/conten/create']
               },
 
             ]

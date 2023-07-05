@@ -27,8 +27,11 @@ export class CreateContainerComponent {
   selectedContainerRow: dropdownOptions | undefined;
 
   products!: any[];
+  containerId: string;
 
   ngOnInit() {
+      this.containerId = 'CONTAINER ID: 5026';
+
       this.cities = [
           { name: 'New York', code: 'NY' },
           { name: 'Rome', code: 'RM' },

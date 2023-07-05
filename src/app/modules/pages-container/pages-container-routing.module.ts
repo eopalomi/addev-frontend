@@ -4,6 +4,7 @@ import { EditContainerComponent } from './pages/edit-container/edit-container.co
 
 import { SearchContainerComponent } from './pages/search-container/search-container.component';
 import { CreateContainerComponent } from './pages/create-container/create-container.component';
+import { CreatePageComponent } from './pages/create-page/create-page.component';
 
 const routes: Routes = [
   {path:"container", component: SearchContainerComponent}
@@ -12,6 +13,7 @@ const routes: Routes = [
 export const pages_container_routes: Routes = [
   {path:"conten/search", component: SearchContainerComponent},
   {path:"conten/create", component: CreateContainerComponent},
+  {path:"page/create", component: CreatePageComponent},
   {path:"conten/edit/:id_conten", component: EditContainerComponent},
 ];
 

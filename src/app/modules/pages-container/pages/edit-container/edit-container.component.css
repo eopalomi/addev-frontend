@@ -17,8 +17,8 @@
 
 
 :host .normal {
-    height: 82vh !important;
-    width: 90%;
+    height: calc(100vh - 195px)  !important;
+    width: 99%;
 }
 
 :host .options{
