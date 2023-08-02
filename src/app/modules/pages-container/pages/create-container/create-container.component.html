@@ -1,13 +1,6 @@
 
 <br>
-<p-card header="Create New Container" [subheader]="containerId" [style]="{ width: '700px', margin: '0 auto', 'max-width': '100%'}">
-    <!-- <ng-template pTemplate="header">
-        <div class="text-2xl"> Create New Container 2</div>
-    </ng-template> -->
-    <!-- <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque
-        quas!
-    </p> -->
+<p-card [header]="containerHeader" [subheader]="containerSubheader" [style]="{ width: '750px', margin: '0 auto', 'max-width': '100%'}">
     <p-divider align="left">
         <div class="inline-flex align-items-center">
             <i class="pi pi-desktop mr-2"></i>
@@ -17,15 +10,15 @@
     <div class="formgrid grid p-fluid">
         <div class="field col-12 md:col-4">
             <label htmlFor="username">container name</label>
-            <input pInputText id="username" placeholder="Enter container name" aria-describedby="username-help" [(ngModel)]="value" />
+            <input pInputText id="username" placeholder="Enter container name" aria-describedby="username-help" [(ngModel)]="containerName" />
         </div>
         <div class="field col-12 md:col-2">
             <label for="column1">justify-content</label>
-            <p-dropdown id="column1" [(ngModel)]="selectedJustifyContent" [options]="justifyContentOptions" optionLabel="name"></p-dropdown>
+            <p-dropdown id="column1" [(ngModel)]="selectedJustifyContainer" [options]="justifyContainerOptions" optionLabel="name"></p-dropdown>
         </div>
         <div class="field col-12 md:col-2">
             <label for="column2">gap&nbsp;</label>
-            <p-dropdown id="column2" [(ngModel)]="selectedGap" [options]="gapOptions" optionLabel="name"></p-dropdown>
+            <p-dropdown id="column2" [(ngModel)]="selectedGapContainer" [options]="gapContainerOptions" optionLabel="name"></p-dropdown>
         </div>
         <div class="field col-12 md:col-2">
             <label for="column3">columns</label>
@@ -42,52 +35,61 @@
             <b>Add Grid</b>
         </div>
     </p-divider>
-    <div class="formgrid grid p-fluid justify-content-center">
-        <div class="field col-12 md:col-2">
-            <label for="column1">columns</label>
-            <p-dropdown id="column1" [(ngModel)]="selectedJustifyContent" [options]="justifyContentOptions" optionLabel="name"></p-dropdown>
+    <div class="formgrid grid p-fluid justify-content-center align-items-center">
+        <div class="field col-12 md:col-1">
+            <label for="columnID">ID&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <p-dropdown id="columnID" [(ngModel)]="selectedContainerGridId" [options]="containerGridIdOptions" optionLabel="name"></p-dropdown>
         </div>
         <div class="field col-12 md:col-2">
+            <label for="column1">columns</label>
+            <p-dropdown id="column1" [(ngModel)]="selectedcolumnGrid" [options]="columnGridOptions" optionLabel="name"></p-dropdown>
+        </div>
+        <div class="field col-12 md:col-1">
             <label for="column1">rows&nbsp;&nbsp;&nbsp;&nbsp;</label>
-            <p-dropdown id="column1" [(ngModel)]="selectedJustifyContent" [options]="justifyContentOptions" optionLabel="name"></p-dropdown>
+            <p-dropdown id="column1" [(ngModel)]="selectedrowGrid" [options]="rowGridOptions" optionLabel="name"></p-dropdown>
         </div>
         <div class="field col-12 md:col-2">
             <label for="column2">flex-direction</label>
-            <p-dropdown id="column2" [(ngModel)]="selectedGap" [options]="gapOptions" optionLabel="name"></p-dropdown>
+            <p-dropdown id="column2" [(ngModel)]="selectedflexDirectionGrid" [options]="flexDirectionGridOptions" optionLabel="name"></p-dropdown>
         </div>
         <div class="field col-12 md:col-2">
             <label for="column3">justify-content</label>
-            <p-dropdown id="column3" [(ngModel)]="selectedContainerColumn" [options]="containerColumnOptions" optionLabel="name"></p-dropdown>
+            <p-dropdown id="column3" [(ngModel)]="selectedjustifyContentGrid" [options]="justifyContentGridOptions" optionLabel="name"></p-dropdown>
         </div>
         <div class="field col-12 md:col-2">
             <label for="column4">align-items</label>
-            <p-dropdown id="column4" [(ngModel)]="selectedContainerRow" [options]="containerRowOptions" optionLabel="name"></p-dropdown>
+            <p-dropdown id="column4" [(ngModel)]="selectedAlignItemsGrid" [options]="alignItemsGridOptions" optionLabel="name"></p-dropdown>
         </div>
-        <div class="field col-12 md:col-2">
+        <div class="field col-12 md:col-1">
             <label for="column4">gap</label>
-            <p-dropdown id="column4" [(ngModel)]="selectedContainerRow" [options]="containerRowOptions" optionLabel="name"></p-dropdown>
+            <p-dropdown id="column4" [(ngModel)]="selectedgapGrid" [options]="gapGridOptions" optionLabel="name"></p-dropdown>
         </div>
-        <div class="field col-4 md:col-2">
-            <label for="column6">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-            <p-button for="column6" label="Add Grid" icon="pi pi-plus"></p-button>
+        <div *ngIf="!idForUpdateGrid" class="field col-4 md:col-1">
+            <label for="column6">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <p-button for="column6" (click)="addGrid()" label="" icon="pi pi-plus"></p-button>
         </div>
-        <div class="field col-4 md:col-2">
-            <label for="column6">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-            <p-button for="column6" label="Save" icon="pi pi-save"></p-button>
+        <div *ngIf="idForUpdateGrid" class="field col-4 md:col-1">
+            <label for="column6">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <p-button for="column6" (click)="cleanGrid()" label="" icon="pi pi-times" styleClass="p-button-danger"></p-button>
+        </div>
+        <div *ngIf="!idForUpdateGrid" class="field col-4 md:col-2">
+            <label for="column7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <p-button for="column7" (click)="saveContainer()" label="Save" icon="pi pi-save"></p-button>
+        </div>
+        <div *ngIf="idForUpdateGrid" class="field col-4 md:col-2">
+            <label for="column7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <p-button for="column7" label="Update Grid" (click)="updateGrid()" styleClass="p-button-danger" icon="pi pi-table"></p-button>
         </div>
     </div>
 </p-card>
 
 <br>
 
-<p-card subheader="CONTAINER GRID LIST"  [style]="{ width: '700px', margin: '0 auto', 'max-width': '100%'}">
+<p-card subheader="CONTAINER GRID LIST"  [style]="{ width: '750px', margin: '0 auto', 'max-width': '100%'}">
     <p-table 
-        [value]="products" 
+        [value]="grids" 
         [tableStyle]="{ 'width': '660px', margin:'0 auto' }" 
-        [paginator]="true"
-        [rows]="8"
-        [showCurrentPageReport]="true"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        scrollHeight="450px"
     >
         <ng-template pTemplate="header">
             <tr>
@@ -101,19 +103,19 @@
                 <th style="width: 5rem"></th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-product>
+        <ng-template pTemplate="body" let-grid>
             <tr>
-                <td>{{ product.code }}</td>
-                <td>{{ product.name }}</td>
-                <td>{{ product.quantity }}</td>
-                <td>{{ product.code }}</td>
-                <td>{{ product.code }}</td>
-                <td>{{ product.code }}</td>
-                <td>{{ product.code }}</td>
+                <td>{{ grid.numberOfGrid }}</td>
+                <td>{{ grid.gridColumn }}</td>
+                <td>{{ grid.gridRow }}</td>
+                <td>{{ grid.FlexDirection }}</td>
+                <td>{{ grid.FlexJustifyContent }}</td>
+                <td>{{ grid.FlexAlignItems }}</td>
+                <td>{{ grid.FlexGap }}</td>
                 <td>
                     <div class="flex gap-2">
-                        <button type="button" pButton pRipple icon="pi pi-trash"></button>
-                        <button type="button" pButton pRipple icon="pi pi-pencil"></button>
+                        <button type="button" pButton pRipple (click)="removeGrid(grid.numberOfGrid)" icon="pi pi-trash"></button>
+                        <button type="button" pButton pRipple (click)="selectGrid(grid.numberOfGrid)" icon="pi pi-pencil"></button>
                     </div>
                 </td>
             </tr>
@@ -121,8 +123,9 @@
     </p-table>
     <ng-template pTemplate="footer">
         <div class="grid justify-content-center">
-            <p-button pRipple label="Add Pages" icon="pi pi-chevron-right" ></p-button>
+            <p-button pRipple label="Add Pages" (click)="showPrueba()" icon="pi pi-chevron-right" ></p-button>
         </div>
     </ng-template>
 </p-card>
-
+<!-- <p-toast position="top-left" key="confirm1"></p-toast> -->
+<p-toast></p-toast>

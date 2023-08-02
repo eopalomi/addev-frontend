@@ -1,185 +1,234 @@
 
+<div class="grid justify-content-center">
+    <div class="field col-12 md:col-5 flex justify-content-center md:justify-content-end">
+        <div class="flex flex-column gap-3" style="width: 650px; max-width: 100%;">
+            <p-card [header]="titlePage" [subheader]="subtitlePage" [style]="{ width: '100%'}">
 
-<p-card header="Create New Page" subheader="Page ID: 2563" [style]="{ width: '700px', margin: '0 auto', 'max-width': '100%'}">
-
-    <p-divider align="left">
-        <div class="inline-flex align-items-center">
-            <i class="pi pi-desktop mr-2"></i>
-            <b>Page Configuration</b>
-        </div>
-    </p-divider>
-    <div class="formgrid grid p-fluid">
-        <div class="field col-12 md:col-2">
-            <label htmlFor="username">Container ID</label>
-            <input pInputText id="username" placeholder="Enter container name" aria-describedby="username-help" [(ngModel)]="value" />
-        </div>
-        <div class="field col-12 md:col-6">
-            <label htmlFor="pagename">Page Name</label>
-            <input pInputText id="pagename" placeholder="Enter container name" aria-describedby="username-help" [(ngModel)]="value" />
-        </div>
-        <div class="field col-12 md:col-2">
-            <label for="column2">Type Page</label>
-            <p-dropdown id="column2" [(ngModel)]="selectedGap" [options]="gapOptions" optionLabel="name"></p-dropdown>
-        </div>
-        <div class="field col-12 md:col-2">
-            <label for="column4">Order Position</label>
-            <p-dropdown id="column4" [(ngModel)]="selectedContainerRow" [options]="containerRowOptions" optionLabel="name"></p-dropdown>
-        </div>
-        <div class="field col-12 md:col-2">
-            <label for="headerHeigth">Header Height</label>
-            <p-dropdown id="headerHeight" [(ngModel)]="selectedGap" [options]="gapOptions" optionLabel="name"></p-dropdown>
-        </div>
-        <div class="field col-12 md:col-3">
-            <label for="column4">Field Type</label>
-            <p-dropdown id="column4" [(ngModel)]="selectedContainerRow" [options]="containerRowOptions" optionLabel="name"></p-dropdown>
-        </div>
-        <div class="field col-12 md:col-3">
-            <label for="column4">Field Style</label>
-            <p-dropdown id="column4" [(ngModel)]="selectedContainerRow" [options]="containerRowOptions" optionLabel="name"></p-dropdown>
-        </div>
-        <div class="field col-12 md:col-2">
-            <label for="column4">Grid ID</label>
-            <p-dropdown id="column4" [(ngModel)]="selectedContainerRow" [options]="containerRowOptions" optionLabel="name"></p-dropdown>
-        </div>
-        <div class="field col-12 md:col-2">
-            <label for="column4">Page Width Size</label>
-            <p-dropdown id="column4" [(ngModel)]="selectedContainerRow" [options]="containerRowOptions" optionLabel="name"></p-dropdown>
-        </div>
-    </div>
-
-    <p-divider align="left">
-        <div class="inline-flex align-items-center">
-            <i class="pi pi-palette mr-2"></i>
-            <b>Color Setting</b>
-        </div>
-    </p-divider>
-    <div class="card flex flex-wrap gap-3">
-        <div class="flex-1 flex flex-column align-items-center gap-2">
-            <label htmlFor="cp-hex" class="font-bold block mb-2">Header Color</label>
-            <p-colorPicker [(ngModel)]="color"></p-colorPicker>
-            <span>{{ color }}</span>
-        </div>
-        <div class="flex-1 flex flex-column align-items-center gap-2">
-            <label htmlFor="cp-hex" class="font-bold block mb-2">Table Header Color</label>
-            <p-colorPicker [(ngModel)]="color"></p-colorPicker>
-            <span>{{ color }}</span>
-        </div>
-        <div class="flex-1 flex flex-column align-items-center gap-2">
-            <label htmlFor="cp-hex" class="font-bold block mb-2">Font Header Color</label>
-            <p-colorPicker [(ngModel)]="color"></p-colorPicker>
-            <span>{{ color }}</span>
-        </div>
-        <div class="flex-1 flex flex-column align-items-center gap-2">
-            <label htmlFor="cp-hex" class="font-bold block mb-2">Font Table Header Color</label>
-            <p-colorPicker [(ngModel)]="color"></p-colorPicker>
-            <span>{{ color }}</span>
-        </div>
-    </div>
-
-    <p-divider align="left">
-        <div class="inline-flex align-items-center">
-            <i class="pi pi-check-square mr-2"></i>
-            <b>Optional Settings</b>
-        </div>
-    </p-divider>
-    <div class="card flex flex-column md:flex-row justify-content-center gap-3">
-        <p-checkbox name="groupname" value="val1" label="Paginator" [(ngModel)]="selectedValues"></p-checkbox>
-        <p-checkbox name="groupname" value="val2" label="Header" [(ngModel)]="selectedValues"></p-checkbox>
-        <p-checkbox name="groupname" value="val2" label="Search" [(ngModel)]="selectedValues"></p-checkbox>
-        <p-checkbox name="groupname" value="val2" label="Dev Mode" [(ngModel)]="selectedValues"></p-checkbox>
-        <p-checkbox name="groupname" value="val2" label="Table Check" [(ngModel)]="selectedValues"></p-checkbox>
-        <p-checkbox name="groupname" value="val2" label="Page Title" [(ngModel)]="selectedValues"></p-checkbox>
-        <p-checkbox name="groupname" value="val2" label="Table Sort" [(ngModel)]="selectedValues"></p-checkbox>
-    </div>
-
-    <div class="formgrid grid p-fluid justify-content-center">
-        <div class="field col-4 md:col-2">
-            <label for="column6">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-            <p-button for="column6" label="Save" icon="pi pi-save"></p-button>
-        </div>
-    </div>
-
-</p-card>
-
-<br>
-
-<p-card [style]="{ width: '700px', margin: '0 auto', 'max-width': '100%'}">
-
-    <p-divider align="left">
-        <div class="inline-flex align-items-center">
-            <i class="pi pi-th-large mr-2"></i>
-            <b>Add Rows</b>
-        </div>
-    </p-divider>
-    <div class="formgrid grid p-fluid align-items-center">
-        <div class="field col-12 md:col-1">
-            <label htmlFor="username"># Row</label>
-            <input pInputText id="username" placeholder="" aria-describedby="username-help" [(ngModel)]="value" />
-        </div>
-        <div class="field col-12 md:col-3">
-            <label htmlFor="pagename">Row Name</label>
-            <input pInputText id="pagename" placeholder="Enter container name" aria-describedby="username-help" [(ngModel)]="value" />
-        </div>
-        <div class="field col-12 md:col-2">
-            <label for="column2">Type</label>
-            <p-dropdown id="column2" [(ngModel)]="selectedGap" [options]="gapOptions" optionLabel="name"></p-dropdown>
-        </div>
-        <div class="field col-12 md:col-2">
-            <label for="column4">Label Size</label>
-            <p-dropdown id="column4" [(ngModel)]="selectedContainerRow" [options]="containerRowOptions" optionLabel="name"></p-dropdown>
-        </div>
-        <div class="field col-12 md:col-2">
-            <label for="headerHeigth">Field Size</label>
-            <p-dropdown id="headerHeight" [(ngModel)]="selectedGap" [options]="gapOptions" optionLabel="name"></p-dropdown>
-        </div>
-        <div class="field col-12 md:col-1">
-            <label for="column4">Order</label>
-            <input pInputText id="username" placeholder="" aria-describedby="username-help" [(ngModel)]="value"/>
-        </div>
-        <div class="field col-12 md:col-1">
-            <label >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-            <p-button type="button" label="Add"></p-button>
-        </div>
-    </div>
-</p-card>
-
-<br>
-
-<p-card subheader="PAGE LIST"  [style]="{ width: '700px', margin: '0 auto', 'max-width': '100%'}">
-    <p-table 
-        [value]="products" 
-        [tableStyle]="{ 'width': '660px', margin:'0 auto' }" 
-        [paginator]="true"
-        [rows]="8"
-        [showCurrentPageReport]="true"
-        selectionMode="single" 
-        [(selection)]="selectedPage" 
-        dataKey="code"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    >
-        <ng-template pTemplate="header">
-            <tr>
-                <th>ID Page</th>
-                <th>ID Container</th>
-                <th>Name</th>
-                <th>Fields quantity</th>
-                <th style="width: 5rem"></th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-product>
-            <tr [pSelectableRow]="product">
-                <td>{{ product.code }}</td>
-                <td>{{ product.code }}</td>
-                <td>{{ product.name }}</td>
-                <td>{{ product.quantity }}</td>
-              
-                <td>
-                    <div class="flex gap-2">
-                        <button type="button" pButton pRipple icon="pi pi-trash"></button>
-                        <button type="button" pButton pRipple icon="pi pi-cog"></button>
+                <p-divider align="left">
+                    <div class="inline-flex align-items-center">
+                        <i class="pi pi-desktop mr-2"></i>
+                        <b>Page Configuration</b>
                     </div>
-                </td>
-            </tr>
-        </ng-template>
-    </p-table>
-</p-card>
+                </p-divider>
+                <div class="formgrid grid p-fluid">
+                    <div class="field col-12 md:col-2">
+                        <label htmlFor="username">Container ID</label>
+                        <input pInputText id="page_id" placeholder="Enter container ID" aria-describedby="username-help" [(ngModel)]="containerID" />
+                    </div>
+                    <div class="field col-12 md:col-6">
+                        <label htmlFor="pagename">Page Name</label>
+                        <input pInputText id="page_name" placeholder="Enter page name" aria-describedby="username-help" [(ngModel)]="pageName" />
+                    </div>
+                    <div class="field col-12 md:col-2">
+                        <label for="column2">Type Page</label>
+                        <p-dropdown id="column2" [(ngModel)]="selectedPageType" [options]="pageTypeOptions" optionLabel="name"></p-dropdown>
+                    </div>
+                    <div class="field col-12 md:col-2">
+                        <label for="column4">Order Position</label>
+                        <p-dropdown id="column4" [(ngModel)]="selectedPageOrder" [options]="pageOrderOptions" optionLabel="name"></p-dropdown>
+                    </div>
+                    <div class="field col-12 md:col-2">
+                        <label for="headerHeigth">Header Height</label>
+                        <p-dropdown id="headerHeight" [(ngModel)]="selectedPageHeaderHeigth" [options]="pageHeaderHeigthOptions" optionLabel="name"></p-dropdown>
+                    </div>
+                    <div class="field col-12 md:col-3">
+                        <label for="column4">Field Type</label>
+                        <p-dropdown id="column4" [(ngModel)]="selectedPageFieldType" [options]="pageFieldTypeOptions" optionLabel="name"></p-dropdown>
+                    </div>
+                    <div class="field col-12 md:col-3">
+                        <label for="column4">Field Style</label>
+                        <p-dropdown id="column4" [(ngModel)]="selectedPageFieldStyle" [options]="pageFieldStyleOptions" optionLabel="name"></p-dropdown>
+                    </div>
+                    <div class="field col-12 md:col-2">
+                        <label for="column4">Grid ID</label>
+                        <p-dropdown id="column4" [(ngModel)]="selectedPageGridID" [options]="pageGridIDOptions" optionLabel="name"></p-dropdown>
+                    </div>
+                    <div class="field col-12 md:col-2">
+                        <label for="column4">Page Width Size</label>
+                        <p-dropdown id="column4" [(ngModel)]="selectedPageWidthSize" [options]="pageWidthSizeOptions" optionLabel="name"></p-dropdown>
+                    </div>
+                </div>
+        
+                <p-divider align="left">
+                    <div class="inline-flex align-items-center">
+                        <i class="pi pi-palette mr-2"></i>
+                        <b>Color Setting</b>
+                    </div>
+                </p-divider>
+                <div class="card flex flex-wrap gap-3">
+                    <div class="flex-1 flex flex-column align-items-center gap-2">
+                        <label htmlFor="cp-hex" class="font-bold block mb-2">Header Color</label>
+                        <p-colorPicker [(ngModel)]="headerColor"></p-colorPicker>
+                        <input [style]="{width:'65px'}" pInputText class="p-inputtext-sm" [(ngModel)]="headerColor" [value]="headerColor" maxlength="7"/>
+                    </div>
+                    <div class="flex-1 flex flex-column align-items-center gap-2">
+                        <label htmlFor="cp-hex" class="font-bold block mb-2">Table Header Color</label>
+                        <p-colorPicker [(ngModel)]="TableHeaderColor"></p-colorPicker>
+                        <input [style]="{width:'65px'}" pInputText class="p-inputtext-sm" [(ngModel)]="TableHeaderColor" [value]="TableHeaderColor" maxlength="7"/>
+                    </div>
+                    <div class="flex-1 flex flex-column align-items-center gap-2">
+                        <label htmlFor="cp-hex" class="font-bold block mb-2">Font Header Color</label>
+                        <p-colorPicker [(ngModel)]="fontHeaderColor"></p-colorPicker>
+                        <input [style]="{width:'65px'}" pInputText class="p-inputtext-sm" [(ngModel)]="fontHeaderColor" [value]="fontHeaderColor" maxlength="7"/>
+                    </div>
+                    <div class="flex-1 flex flex-column align-items-center gap-2">
+                        <label htmlFor="cp-hex" class="font-bold block mb-2">Font Table Header Color</label>
+                        <p-colorPicker [(ngModel)]="fontTableHeaderColor"></p-colorPicker>
+                        <input [style]="{width:'65px'}" pInputText class="p-inputtext-sm" [(ngModel)]="fontTableHeaderColor" [value]="fontTableHeaderColor" maxlength="7"/>
+                    </div>
+                </div>
+        
+                <p-divider align="left">
+                    <div class="inline-flex align-items-center">
+                        <i class="pi pi-check-square mr-2"></i>
+                        <b>Optional Settings</b>
+                    </div>
+                </p-divider>
+                <div class="card flex flex-column md:flex-row justify-content-center gap-3">
+                    <p-checkbox name="groupname" value="paginator" label="Paginator" [(ngModel)]="optionalSettings"></p-checkbox>
+                    <p-checkbox name="groupname" value="header" label="Header" [(ngModel)]="optionalSettings"></p-checkbox>
+                    <p-checkbox name="groupname" value="search" label="Search" [(ngModel)]="optionalSettings"></p-checkbox>
+                    <p-checkbox name="groupname" value="dev_mode" label="Dev Mode" [(ngModel)]="optionalSettings"></p-checkbox>
+                    <p-checkbox name="groupname" value="table_check" label="Table Check" [(ngModel)]="optionalSettings"></p-checkbox>
+                    <p-checkbox name="groupname" value="page_title" label="Page Title" [(ngModel)]="optionalSettings"></p-checkbox>
+                    <p-checkbox name="groupname" value="table_sort" label="Table Sort" [(ngModel)]="optionalSettings"></p-checkbox>
+                </div>
+        
+                <div class="formgrid grid p-fluid justify-content-center">
+                    <div class="field col-4 md:col-2">
+                        <label for="column6">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <p-button *ngIf="!selectedPage" for="column6" label="Save" (click)="savePage()" icon="pi pi-save"></p-button>
+                        <p-button *ngIf="selectedPage" for="column6" label="Update" (click)="update()" icon="pi pi-save"></p-button>
+                    </div>
+                </div>
+        
+            </p-card>
+
+            <p-card subheader="PAGE LIST" [style]="{ width: '100%'}">
+            <!-- <p-card [subheader]="selectedPage | json" [style]="{ width: '100%'}"> -->
+                <p-table 
+                    [value]="pageList" 
+                    [tableStyle]="{ 'width': '100%'}" 
+                    [paginator]="true"
+                    [rows]="5"
+                    [showCurrentPageReport]="true"
+                    selectionMode="single" 
+                    [(selection)]="selectedPage" 
+                    (selectionChange)="onSelectionPageChange()"
+                    dataKey="pageID"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                >
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>ID Page</th>
+                            <th>ID Container</th>
+                            <th>Name</th>
+                            <th>Fields quantity</th>
+                            <th style="width: 5rem"></th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-page>
+                        <tr [pSelectableRow]="page">
+                            <td>{{ page.pageID }}</td>
+                            <td>{{ page.containerID }}</td>
+                            <td>{{ page.pageName }}</td>
+                            <td>{{ page.fieldsQuantity }}</td>
+                            <td>
+                                <div class="flex gap-2">
+                                    <button type="button" pButton pRipple (click)="deletePage(page.pageID)" icon="pi pi-trash"></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </p-card>        
+        </div>
+    </div>
+
+    <div *ngIf="selectedPage"  class="field col-12 md:col-5 flex justify-content-center md:justify-content-start">
+        <div class="flex flex-column gap-3" style="width: 700px; max-width: 100%;">
+            <p-card [header]="'Page: ' + pageID" [style]="{ width: '100%'}">
+
+                <p-divider align="left">
+                    <div class="inline-flex align-items-center">
+                        <i class="pi pi-th-large mr-2"></i>
+                        <b>Add Rows</b>
+                    </div>
+                </p-divider>
+                <div class="formgrid grid p-fluid align-items-center">
+                    <div class="field col-12 md:col-1">
+                        <label htmlFor="username"># Row</label>
+                        <input pInputText id="username" placeholder="" aria-describedby="username-help" [(ngModel)]="rowID" />
+                    </div>
+                    <div class="field col-12 md:col-3">
+                        <label htmlFor="pagename">Row Name</label>
+                        <input pInputText id="pagename" placeholder="Enter container name" aria-describedby="username-help" [(ngModel)]="rowName" />
+                    </div>
+                    <div class="field col-12 md:col-2">
+                        <label for="column2">Type</label>
+                        <p-dropdown id="column2" [(ngModel)]="selectedRowType" [options]="rowTypeOptions" optionLabel="name"></p-dropdown>
+                    </div>
+                    <div class="field col-12 md:col-2">
+                        <label for="column4">Label Size</label>
+                        <p-dropdown id="column4" [(ngModel)]="selectedRowLabelSize" [options]="rowLabelSizeOptions" optionLabel="name"></p-dropdown>
+                    </div>
+                    <div class="field col-12 md:col-2">
+                        <label for="headerHeigth">Field Size</label>
+                        <p-dropdown id="headerHeight" [(ngModel)]="selectedRowFieldSize" [options]="rowFieldSizeOptions" optionLabel="name"></p-dropdown>
+                    </div>
+                    <div class="field col-12 md:col-1">
+                        <label for="order">Order</label>
+                        <input pInputText id="order" placeholder="" aria-describedby="order" [(ngModel)]="rowOrder"/>
+                    </div>
+                    <div class="field col-12 md:col-1">
+                        <label >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <p-button *ngIf="!selectedPageRow" type="button" (click)="addRow()" label="Add"></p-button>
+                        <p-button *ngIf="selectedPageRow" type="button" (click)="updateRow()" label="" icon="pi pi-save"></p-button>
+                    </div>
+                </div>
+            </p-card>
+            <p-card [subheader]="'ROWS LIST: ' + pageID"  [style]="{ width: '100%', 'max-width': '100%'}">
+                <p-table 
+                    [value]="pageSelectedRows" 
+                    [tableStyle]="{ 'width': '100%'}" 
+                    [paginator]="true"
+                    [rows]="8"
+                    [showCurrentPageReport]="true"
+                    selectionMode="single" 
+                    [(selection)]="selectedPageRow" 
+                    (selectionChange)="onSelectionRowChange()"
+                    dataKey="idRow"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                >
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>ID Row</th>
+                            <th>Row Name</th>
+                            <th>Type</th>
+                            <th>Label Size</th>
+                            <th>Field Size</th>
+                            <th>Order</th>
+                            <th style="width: 5rem"></th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-pageRow>
+                        <tr [pSelectableRow]="pageRow">
+                            <td>{{ pageRow.idRow }}</td>
+                            <td>{{ pageRow.rowName }}</td>
+                            <td>{{ pageRow.rowType }}</td>
+                            <td>{{ pageRow.labelSize }}</td>
+                            <td>{{ pageRow.fieldSize }}</td>
+                            <td>{{ pageRow.order }}</td>
+                            <td>
+                                <div class="flex gap-2">
+                                    <button type="button" pButton pRipple (click)="deleteRow(pageRow.idRow)" icon="pi pi-trash"></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </p-card>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>

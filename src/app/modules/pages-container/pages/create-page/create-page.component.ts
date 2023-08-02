@@ -1,489 +1,612 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { MessageService } from 'primeng/api';
 import { Component } from '@angular/core';
+
 interface dropdownOptions {
   name: string;
   code: string;
 }
 
-interface Products {
-    id: string,
-    code: string,
-    name: string,
-    description: string,
-    image: string,
-    price: number,
-    category: string,
-    quantity: number,
-    inventoryStatus: string,
-    rating: number
+interface Page {
+   pageID: number,
+   containerID: number
+   pageName: string
+   fieldsQuantity: number
+}
+
+interface PageRows {
+   idRow: number,
+   pageID: number,
+   rowName: string,
+   rowType: number,
+   labelSize: number,
+   fieldSize: number,
+   order: number
+}
+
+interface PageDTO {
+   idPage?: number,
+   containerId: number,
+   pageName: string,
+   pageType: string,
+   orderPosition: number,
+   headerHeight: string,
+   fieldType: string,
+   fieldStyle: string,
+   numberOfGrid: string,
+   widthSize: string,
+   headerColor: string,
+   tableHeaderColor: string,
+   fontHeaderColor: string,
+   fonttableHeaderColor: string,
+   paginator: boolean,
+   showHeaderTable: boolean,
+   search: boolean,
+   devMode: boolean,
+   tableCheck: boolean,
+   pageTitle: boolean,
+   tableSort: boolean,
 }
 
 @Component({
   selector: 'app-create-page',
   templateUrl: './create-page.component.html',
-  styleUrls: ['./create-page.component.css']
+  styleUrls: ['./create-page.component.css'],
+  providers: [MessageService]
 })
 export class CreatePageComponent {
-  selectedValues: string[] = [];
-  selectedPage!: Products;
-  color: string = '#6466f1';
+   titlePage = 'Create New Page';
+   subtitlePage = '';
 
-  value: string = '';
-  cities: dropdownOptions[] | undefined;
-  selectedCity: dropdownOptions | undefined;
+   pageID: number;
+   containerID: number;
+   pageName: string;
 
-  justifyContentOptions: dropdownOptions[] | undefined;
-  selectedJustifyContent: dropdownOptions | undefined;
+   pageTypeOptions: dropdownOptions [] = [
+      {name:'Form', code: "F"},
+      {name:'Table', code: "T"},
+      {name:'Card 01', code: "C01"},
+      {name:'Chart 01', code: "CH1"},
+   ];
+   selectedPageType: dropdownOptions;
 
-  gapOptions: dropdownOptions[] | undefined;
-  selectedGap: dropdownOptions | undefined;
+   pageOrderOptions: dropdownOptions [] = [
+      {name:'01', code: '1'},
+      {name:'02', code: '2'},
+      {name:'03', code: '3'},
+      {name:'04', code: '4'},
+      {name:'05', code: '5'},
+      {name:'06', code: '6'},
+      {name:'07', code: '7'},
+      {name:'08', code: '8'},
+      {name:'09', code: '9'},
+      {name:'10', code: '10'},
+      {name:'11', code: '11'},
+      {name:'12', code: '12'},
+   ];
+   selectedPageOrder: dropdownOptions;
 
-  containerColumnOptions: dropdownOptions[] | undefined;
-  selectedContainerColumn: dropdownOptions | undefined;
+   pageHeaderHeigthOptions: dropdownOptions [] = [
+      {name:'10px', code: '10'},
+      {name:'15px', code: '15'},
+      {name:'20px', code: '20'},
+      {name:'25px', code: '25'},
+      {name:'30px', code: '30'},
+      {name:'35px', code: '35'},
+      {name:'40px', code: '40'},
+      {name:'45px', code: '45'},
+      {name:'50px', code: '50'},
+   ];
+   selectedPageHeaderHeigth: dropdownOptions;
 
-  containerRowOptions: dropdownOptions[] | undefined;
-  selectedContainerRow: dropdownOptions | undefined;
+   pageFieldTypeOptions: dropdownOptions [] = [
+      {name:'Vertical', code: 'VE'},
+      {name:'Horizontal', code: 'HO'},
+   ];
+   selectedPageFieldType: dropdownOptions;
 
-  products!: Products[];
-  containerId: string;
+   pageFieldStyleOptions: dropdownOptions [] = [
+      {name:'Filled', code: 'filled'},
+      {name:'Outlined', code: 'outlined'},
+   ];
+   selectedPageFieldStyle: dropdownOptions;
 
-  ngOnInit(){
-    
-    this.cities = [
-        { name: 'New York', code: 'NY' },
-        { name: 'Rome', code: 'RM' },
-        { name: 'London', code: 'LDN' },
-        { name: 'Istanbul', code: 'IST' },
-        { name: 'Paris', code: 'PRS' }
-    ];
+   pageGridIDOptions: dropdownOptions [] = [
+      {name:'01', code: '1'},
+      {name:'02', code: '2'},
+      {name:'03', code: '3'},
+      {name:'04', code: '4'},
+      {name:'05', code: '5'},
+      {name:'06', code: '6'},
+      {name:'07', code: '7'},
+      {name:'08', code: '8'},
+      {name:'09', code: '9'},
+      {name:'10', code: '10'},
+      {name:'11', code: '11'},
+      {name:'12', code: '12'},
+   ];
+   selectedPageGridID: dropdownOptions;
 
-    this.justifyContentOptions = [
-      { name: 'center', code: 'center' },
-      { name: 'start', code: 'start' },
-      { name: 'end', code: 'end' },
-      { name: 'flex-start', code: 'flex-start' },
-      { name: 'flex-end', code: 'flex-end' },
-      { name: 'left', code: 'left' },
-      { name: 'right', code: 'right' },
-      { name: 'normal', code: 'normal' },
-      { name: 'space-between', code: 'space-between' },
-      { name: 'space-around', code: 'space-around' },
-      { name: 'space-evenly', code: 'space-evenly' },
-      { name: 'stretch', code: 'stretch' },
-      { name: 'safe center', code: 'safe center' },
-      { name: 'unsafe center', code: 'unsafe center' },
-      { name: 'inherit', code: 'inherit' },
-      { name: 'initial', code: 'initial' },
-      { name: 'revert', code: 'revert' },
-      { name: 'revert-layer', code: 'revert-layer' },
-      { name: 'unset', code: 'unset' }
-    ];
+   pageWidthSizeOptions: dropdownOptions [];
+   selectedPageWidthSize: dropdownOptions;
 
-    this.gapOptions = [
-      { name: '10px', code: '10px' },
-      { name: '12px', code: '12px' },
-      { name: '14px', code: '14px' },
-      { name: '16px', code: '16px' },
-      { name: '18px', code: '18px' },
-      { name: '20px', code: '20px' },
-      { name: '22px', code: '22px' },
-      { name: '24px', code: '24px' },
-      { name: '26px', code: '26px' },
-      { name: '28px', code: '28px' },
-      { name: '30px', code: '30px' },
-      { name: '32px', code: '32px' }
-    ];
+   headerColor: string;
+   TableHeaderColor: string;
+   fontHeaderColor: string;
+   fontTableHeaderColor: string;
 
-    this.containerColumnOptions = [
-      { name: '01', code: '01' },
-      { name: '02', code: '02' },
-      { name: '03', code: '03' },
-      { name: '04', code: '04' },
-      { name: '05', code: '05' },
-      { name: '06', code: '06' },
-      { name: '07', code: '07' },
-      { name: '08', code: '08' },
-      { name: '09', code: '09' },
-      { name: '10', code: '10' },
-      { name: '11', code: '11' },
-      { name: '12', code: '12' }
-    ];
+   optionalSettings: string[] = [];
 
-    this.containerRowOptions = [
-      { name: '01', code: '01' },
-      { name: '02', code: '02' },
-      { name: '03', code: '03' },
-      { name: '04', code: '04' },
-      { name: '05', code: '05' },
-      { name: '06', code: '06' },
-      { name: '07', code: '07' },
-      { name: '08', code: '08' },
-      { name: '09', code: '09' },
-      { name: '10', code: '10' },
-      { name: '11', code: '11' },
-      { name: '12', code: '12' }
-    ];
+   rowID: number;
+   rowName: string;
 
-    this.products =  [
-      {
-          id: '1000',
-          code: 'f230fh0g3',
-          name: 'Bamboo Watch',
-          description: 'Product Description',
-          image: 'bamboo-watch.jpg',
-          price: 65,
-          category: 'Accessories',
-          quantity: 24,
-          inventoryStatus: 'INSTOCK',
-          rating: 5
-      },
-      {
-          id: '1001',
-          code: 'nvklal433',
-          name: 'Black Watch',
-          description: 'Product Description',
-          image: 'black-watch.jpg',
-          price: 72,
-          category: 'Accessories',
-          quantity: 61,
-          inventoryStatus: 'OUTOFSTOCK',
-          rating: 4
-      },
-      {
-          id: '1002',
-          code: 'zz21cz3c1',
-          name: 'Blue Band',
-          description: 'Product Description',
-          image: 'blue-band.jpg',
-          price: 79,
-          category: 'Fitness',
-          quantity: 2,
-          inventoryStatus: 'LOWSTOCK',
-          rating: 3
-      },
-      {
-          id: '1003',
-          code: '244wgerg2',
-          name: 'Blue T-Shirt',
-          description: 'Product Description',
-          image: 'blue-t-shirt.jpg',
-          price: 29,
-          category: 'Clothing',
-          quantity: 25,
-          inventoryStatus: 'INSTOCK',
-          rating: 5
-      },
-      {
-          id: '1004',
-          code: 'h456wer53',
-          name: 'Bracelet',
-          description: 'Product Description',
-          image: 'bracelet.jpg',
-          price: 15,
-          category: 'Accessories',
-          quantity: 73,
-          inventoryStatus: 'INSTOCK',
-          rating: 4
-      },
-      {
-          id: '1005',
-          code: 'av2231fwg',
-          name: 'Brown Purse',
-          description: 'Product Description',
-          image: 'brown-purse.jpg',
-          price: 120,
-          category: 'Accessories',
-          quantity: 0,
-          inventoryStatus: 'OUTOFSTOCK',
-          rating: 4
-      },
-      {
-          id: '1006',
-          code: 'bib36pfvm',
-          name: 'Chakra Bracelet',
-          description: 'Product Description',
-          image: 'chakra-bracelet.jpg',
-          price: 32,
-          category: 'Accessories',
-          quantity: 5,
-          inventoryStatus: 'LOWSTOCK',
-          rating: 3
-      },
-      {
-          id: '1007',
-          code: 'mbvjkgip5',
-          name: 'Galaxy Earrings',
-          description: 'Product Description',
-          image: 'galaxy-earrings.jpg',
-          price: 34,
-          category: 'Accessories',
-          quantity: 23,
-          inventoryStatus: 'INSTOCK',
-          rating: 5
-      },
-      {
-          id: '1008',
-          code: 'vbb124btr',
-          name: 'Game Controller',
-          description: 'Product Description',
-          image: 'game-controller.jpg',
-          price: 99,
-          category: 'Electronics',
-          quantity: 2,
-          inventoryStatus: 'LOWSTOCK',
-          rating: 4
-      },
-      {
-          id: '1009',
-          code: 'cm230f032',
-          name: 'Gaming Set',
-          description: 'Product Description',
-          image: 'gaming-set.jpg',
-          price: 299,
-          category: 'Electronics',
-          quantity: 63,
-          inventoryStatus: 'INSTOCK',
-          rating: 3
-      },
-      {
-          id: '1010',
-          code: 'plb34234v',
-          name: 'Gold Phone Case',
-          description: 'Product Description',
-          image: 'gold-phone-case.jpg',
-          price: 24,
-          category: 'Accessories',
-          quantity: 0,
-          inventoryStatus: 'OUTOFSTOCK',
-          rating: 4
-      },
-      {
-          id: '1011',
-          code: '4920nnc2d',
-          name: 'Green Earbuds',
-          description: 'Product Description',
-          image: 'green-earbuds.jpg',
-          price: 89,
-          category: 'Electronics',
-          quantity: 23,
-          inventoryStatus: 'INSTOCK',
-          rating: 4
-      },
-      {
-          id: '1012',
-          code: '250vm23cc',
-          name: 'Green T-Shirt',
-          description: 'Product Description',
-          image: 'green-t-shirt.jpg',
-          price: 49,
-          category: 'Clothing',
-          quantity: 74,
-          inventoryStatus: 'INSTOCK',
-          rating: 5
-      },
-      {
-          id: '1013',
-          code: 'fldsmn31b',
-          name: 'Grey T-Shirt',
-          description: 'Product Description',
-          image: 'grey-t-shirt.jpg',
-          price: 48,
-          category: 'Clothing',
-          quantity: 0,
-          inventoryStatus: 'OUTOFSTOCK',
-          rating: 3
-      },
-      {
-          id: '1014',
-          code: 'waas1x2as',
-          name: 'Headphones',
-          description: 'Product Description',
-          image: 'headphones.jpg',
-          price: 175,
-          category: 'Electronics',
-          quantity: 8,
-          inventoryStatus: 'LOWSTOCK',
-          rating: 5
-      },
-      {
-          id: '1015',
-          code: 'vb34btbg5',
-          name: 'Light Green T-Shirt',
-          description: 'Product Description',
-          image: 'light-green-t-shirt.jpg',
-          price: 49,
-          category: 'Clothing',
-          quantity: 34,
-          inventoryStatus: 'INSTOCK',
-          rating: 4
-      },
-      {
-          id: '1016',
-          code: 'k8l6j58jl',
-          name: 'Lime Band',
-          description: 'Product Description',
-          image: 'lime-band.jpg',
-          price: 79,
-          category: 'Fitness',
-          quantity: 12,
-          inventoryStatus: 'INSTOCK',
-          rating: 3
-      },
-      {
-          id: '1017',
-          code: 'v435nn85n',
-          name: 'Mini Speakers',
-          description: 'Product Description',
-          image: 'mini-speakers.jpg',
-          price: 85,
-          category: 'Clothing',
-          quantity: 42,
-          inventoryStatus: 'INSTOCK',
-          rating: 4
-      },
-      {
-          id: '1018',
-          code: '09zx9c0zc',
-          name: 'Painted Phone Case',
-          description: 'Product Description',
-          image: 'painted-phone-case.jpg',
-          price: 56,
-          category: 'Accessories',
-          quantity: 41,
-          inventoryStatus: 'INSTOCK',
-          rating: 5
-      },
-      {
-          id: '1019',
-          code: 'mnb5mb2m5',
-          name: 'Pink Band',
-          description: 'Product Description',
-          image: 'pink-band.jpg',
-          price: 79,
-          category: 'Fitness',
-          quantity: 63,
-          inventoryStatus: 'INSTOCK',
-          rating: 4
-      },
-      {
-          id: '1020',
-          code: 'r23fwf2w3',
-          name: 'Pink Purse',
-          description: 'Product Description',
-          image: 'pink-purse.jpg',
-          price: 110,
-          category: 'Accessories',
-          quantity: 0,
-          inventoryStatus: 'OUTOFSTOCK',
-          rating: 4
-      },
-      {
-          id: '1021',
-          code: 'pxpzczo23',
-          name: 'Purple Band',
-          description: 'Product Description',
-          image: 'purple-band.jpg',
-          price: 79,
-          category: 'Fitness',
-          quantity: 6,
-          inventoryStatus: 'LOWSTOCK',
-          rating: 3
-      },
-      {
-          id: '1022',
-          code: '2c42cb5cb',
-          name: 'Purple Gemstone Necklace',
-          description: 'Product Description',
-          image: 'purple-gemstone-necklace.jpg',
-          price: 45,
-          category: 'Accessories',
-          quantity: 62,
-          inventoryStatus: 'INSTOCK',
-          rating: 4
-      },
-      {
-          id: '1023',
-          code: '5k43kkk23',
-          name: 'Purple T-Shirt',
-          description: 'Product Description',
-          image: 'purple-t-shirt.jpg',
-          price: 49,
-          category: 'Clothing',
-          quantity: 2,
-          inventoryStatus: 'LOWSTOCK',
-          rating: 5
-      },
-      {
-          id: '1024',
-          code: 'lm2tny2k4',
-          name: 'Shoes',
-          description: 'Product Description',
-          image: 'shoes.jpg',
-          price: 64,
-          category: 'Clothing',
-          quantity: 0,
-          inventoryStatus: 'INSTOCK',
-          rating: 4
-      },
-      {
-          id: '1025',
-          code: 'nbm5mv45n',
-          name: 'Sneakers',
-          description: 'Product Description',
-          image: 'sneakers.jpg',
-          price: 78,
-          category: 'Clothing',
-          quantity: 52,
-          inventoryStatus: 'INSTOCK',
-          rating: 4
-      },
-      {
-          id: '1026',
-          code: 'zx23zc42c',
-          name: 'Teal T-Shirt',
-          description: 'Product Description',
-          image: 'teal-t-shirt.jpg',
-          price: 49,
-          category: 'Clothing',
-          quantity: 3,
-          inventoryStatus: 'LOWSTOCK',
-          rating: 3
-      },
-      {
-          id: '1027',
-          code: 'acvx872gc',
-          name: 'Yellow Earbuds',
-          description: 'Product Description',
-          image: 'yellow-earbuds.jpg',
-          price: 89,
-          category: 'Electronics',
-          quantity: 35,
-          inventoryStatus: 'INSTOCK',
-          rating: 3
-      },
-      {
-          id: '1028',
-          code: 'tx125ck42',
-          name: 'Yoga Mat',
-          description: 'Product Description',
-          image: 'yoga-mat.jpg',
-          price: 20,
-          category: 'Fitness',
-          quantity: 15,
-          inventoryStatus: 'INSTOCK',
-          rating: 5
-      },
-      {
-          id: '1029',
-          code: 'gwuby345v',
-          name: 'Yoga Set',
-          description: 'Product Description',
-          image: 'yoga-set.jpg',
-          price: 20,
-          category: 'Fitness',
-          quantity: 25,
-          inventoryStatus: 'INSTOCK',
-          rating: 8
+   rowTypeOptions: dropdownOptions [] = [
+      {name:'01', code: '1'},
+      {name:'02', code: '2'},
+      {name:'03', code: '3'},
+      {name:'04', code: '4'},
+      {name:'05', code: '5'},
+      {name:'06', code: '6'},
+      {name:'07', code: '7'},
+      {name:'08', code: '8'},
+      {name:'09', code: '9'},
+      {name:'10', code: '10'},
+      {name:'11', code: '11'},
+      {name:'12', code: '12'},
+      {name:'13', code: '13'},
+      {name:'14', code: '14'},
+      {name:'100', code: '100'},
+   ];
+   selectedRowType: dropdownOptions;
+
+   rowLabelSizeOptions: dropdownOptions [];
+   selectedRowLabelSize: dropdownOptions;
+
+   rowFieldSizeOptions: dropdownOptions [];
+   selectedRowFieldSize: dropdownOptions;
+
+   rowOrder: number;
+
+   pageList: Page[] = [];
+   pageAllRows: PageRows[] = [];
+   pageSelectedRows: PageRows[] = [];
+
+   selectedPage : Page | undefined | null;
+   selectedPageRow : PageRows;
+
+   listPageSaved: PageDTO[] = [];
+
+   constructor(private httpClient: HttpClient, private messageService: MessageService){}
+
+   ngOnInit(){
+      this.pageWidthSizeOptions = Array(50).fill({name:'', code: ''}).map((obj, idx) =>{
+         idx += 1;
+         return {
+            code: `${50*idx}px`,
+            name: `${50*idx}px`
+         };
+      })
+      
+      this.rowLabelSizeOptions = Array(12).fill({name:'', code: ''}).map((value, idx)=>{
+         idx += 1;
+         return {
+            code: `${idx}`,
+            name: `${idx}`,
+         }
+      })
+
+      this.rowFieldSizeOptions = Array(12).fill({name:'', code: ''}).map((value, idx)=>{
+         idx += 1;
+         return {
+            code: `${idx}`,
+            name: `${idx}`,
+         }
+      })      
+   } 
+
+   savePage = () => {
+      const pageOptions: PageDTO = {
+         containerId: this.containerID,
+         pageName: this.pageName,
+         pageType: this.selectedPageType.code,
+         orderPosition: +this.selectedPageOrder.code,
+         headerHeight: this.selectedPageHeaderHeigth.code,
+         fieldType: this.selectedPageFieldType.code,
+         fieldStyle: this.selectedPageFieldStyle.code,
+         numberOfGrid: this.selectedPageGridID.code,
+         widthSize: this.selectedPageWidthSize.code,
+         headerColor: this.headerColor,
+         tableHeaderColor: this.TableHeaderColor,
+         fontHeaderColor: this.fontHeaderColor,
+         fonttableHeaderColor: this.fontTableHeaderColor,
+         paginator: this.optionalSettings.some((item)=> item === 'paginator'),
+         showHeaderTable: this.optionalSettings.some((item)=> item === 'header'),
+         search: this.optionalSettings.some((item)=> item === 'search'),
+         devMode: this.optionalSettings.some((item)=> item === 'dev_mode'),
+         tableCheck: this.optionalSettings.some((item)=> item === 'table_check'),
+         pageTitle: this.optionalSettings.some((item)=> item === 'page_title'),
+         tableSort: this.optionalSettings.some((item)=> item === 'table_sort'),
+      };
+
+      const headers = new HttpHeaders({'Content-Type': 'application/json'});
+
+      this.httpClient.post(`http://localhost:4141/render-manager/v1/page`, pageOptions, {headers: headers}).subscribe(
+         (res:any) => {
+            this.pageID = res.pageID;
+            this.listPageSaved.push({...pageOptions, idPage: this.pageID});
+            
+            this.pageList.push({
+               containerID: this.containerID,
+               pageID: this.pageID,
+               pageName: this.pageName,
+               fieldsQuantity: 0
+            });
+
+            this.showSuccess(`Pagina creada exitosamente ID: ${this.pageID}`);
+
+            this.pageID = undefined;
+            this.pageName = '';
+            this.selectedPageType = undefined;
+            this.selectedPageOrder = undefined;
+            this.selectedPageHeaderHeigth  = undefined;
+            this.selectedPageFieldType  = undefined;
+            this.selectedPageFieldStyle  = undefined;
+            this.selectedPageGridID  = undefined; 
+            this.selectedPageWidthSize  = undefined;
+            this.headerColor  = undefined;
+            this.TableHeaderColor  = undefined;
+            this.fontHeaderColor  = undefined;
+            this.fontTableHeaderColor  = undefined;
+            this.optionalSettings = [];
+         },
+         (error) => {
+             console.log("error", error);
+         },
+     );
+   };
+
+   showSuccess(msg: string) {
+      this.messageService.add({ severity: 'success', summary: 'OK', detail: msg});
+   };
+
+   update = () => {
+      const pageOptions: PageDTO = {
+         idPage: this.pageID,
+         containerId: this.containerID,
+         pageName: this.pageName,
+         pageType: this.selectedPageType.code,
+         orderPosition: +this.selectedPageOrder.code,
+         headerHeight: this.selectedPageHeaderHeigth.code,
+         fieldType: this.selectedPageFieldType.code,
+         fieldStyle: this.selectedPageFieldStyle.code,
+         numberOfGrid: this.selectedPageGridID.code,
+         widthSize: this.selectedPageWidthSize.code,
+         headerColor: this.headerColor,
+         tableHeaderColor: this.TableHeaderColor,
+         fontHeaderColor: this.fontHeaderColor,
+         fonttableHeaderColor: this.fontTableHeaderColor,
+         paginator: this.optionalSettings.some((item)=> item === 'paginator'),
+         showHeaderTable: this.optionalSettings.some((item)=> item === 'header'),
+         search: this.optionalSettings.some((item)=> item === 'search'),
+         devMode: this.optionalSettings.some((item)=> item === 'dev_mode'),
+         tableCheck: this.optionalSettings.some((item)=> item === 'table_check'),
+         pageTitle: this.optionalSettings.some((item)=> item === 'page_title'),
+         tableSort: this.optionalSettings.some((item)=> item === 'table_sort'),
+      };
+      
+      const headers = new HttpHeaders({'Content-Type': 'application/json'});
+
+      this.httpClient.patch(`http://localhost:4141/render-manager/v1/page`, pageOptions, {headers: headers}).subscribe(
+         (res:any) => {
+            const updatedListPageSaved = this.listPageSaved.filter((item) => item.idPage !== this.pageID);
+            this.listPageSaved = updatedListPageSaved;
+            this.listPageSaved.push(pageOptions);
+
+            const updatedListPages = this.pageList.filter((item) => item.pageID !== this.pageID);
+            this.pageList = updatedListPages;
+
+            this.pageList.push({
+               containerID: this.containerID,
+               pageID: this.pageID,
+               pageName: this.pageName,
+               fieldsQuantity: 0
+            });
+
+            this.showSuccess(`Pagina Actualizada exitosamente`);
+         },
+         (error) => {
+             console.log("error", error);
+         },
+     );
+   }
+
+   onSelectionPageChange() {
+      if (!this.selectedPage){
+         this.pageID = undefined;
+         this.pageName = '';
+         this.selectedPageType = undefined;
+         this.selectedPageOrder = undefined;
+         this.selectedPageHeaderHeigth  = undefined;
+         this.selectedPageFieldType  = undefined;
+         this.selectedPageFieldStyle  = undefined;
+         this.selectedPageGridID  = undefined; 
+         this.selectedPageWidthSize  = undefined;
+         this.headerColor  = undefined;
+         this.TableHeaderColor  = undefined;
+         this.fontHeaderColor  = undefined;
+         this.fontTableHeaderColor  = undefined;
+         this.optionalSettings = [];
+         this.titlePage = 'Create New Page';
+         this.subtitlePage = '';
+         this.pageSelectedRows = [];
+         
+         this.rowID = null;
+         this.rowName = null;
+         this.selectedRowType = null;
+         this.selectedRowLabelSize = null;
+         this.selectedRowFieldSize = null;
+         this.rowOrder = null;
+         this.selectedPageRow = null;
+      };
+
+      if (this.selectedPage) {
+         this.rowID = null;
+         this.rowName = null;
+         this.selectedRowType = null;
+         this.selectedRowLabelSize = null;
+         this.selectedRowFieldSize = null;
+         this.rowOrder = null;
+         this.selectedPageRow = null;
+
+         const pageSaved = this.listPageSaved.find((item) => item.idPage === this.selectedPage.pageID);
+         this.pageID = this.selectedPage.pageID;
+
+         this.pageSelectedRows = this.pageAllRows.filter((item)=> item.pageID === this.pageID);
+         
+         if (!pageSaved){
+            return
+         };
+
+         this.pageID = pageSaved.idPage;
+         this.pageName = pageSaved.pageName;
+         this.selectedPageType = this.pageTypeOptions.find((item) => item.code === pageSaved.pageType);
+         this.selectedPageOrder = this.pageOrderOptions.find((item) => +item.code === pageSaved.orderPosition);
+         this.selectedPageHeaderHeigth  = this.pageHeaderHeigthOptions.find((item) => item.code === pageSaved.headerHeight);
+         this.selectedPageFieldType  = this.pageFieldTypeOptions.find((item) => item.code === pageSaved.fieldType);
+         this.selectedPageFieldStyle  = this.pageFieldStyleOptions.find((item) => item.code === pageSaved.fieldStyle);
+         this.selectedPageGridID  = this.pageGridIDOptions.find((item) => item.code === pageSaved.numberOfGrid); 
+         this.selectedPageWidthSize  = this.pageWidthSizeOptions.find((item) => item.code === pageSaved.widthSize);
+         this.headerColor  = pageSaved.headerColor;
+         this.TableHeaderColor  = pageSaved.tableHeaderColor;
+         this.fontHeaderColor  = pageSaved.fontHeaderColor;
+         this.fontTableHeaderColor  = pageSaved.fonttableHeaderColor;
+
+         const pageOptions = {
+            paginator: pageSaved.paginator,
+            header: pageSaved.showHeaderTable,
+            search: pageSaved.search,
+            dev_mode: pageSaved.devMode,
+            table_check: pageSaved.tableCheck,
+            page_title: pageSaved.pageTitle,
+            table_sort: pageSaved.tableSort,
+          };
+
+         this.optionalSettings = Object.entries(pageOptions)
+                                 .filter(([key,value]) => value)
+                                 .map(([key])=>key);
+
+         this.titlePage = 'Update Page';
+         this.subtitlePage = 'Page ID: ' + pageSaved.idPage;
       }
-  ];
-  }
-}
+      
+   }
+
+   addRow = () => {
+      const body = {
+         rowID: this.rowID,
+         idPage: this.selectedPage.pageID,
+         rowName: this.rowName,
+         rowType: +this.selectedRowType.code,
+         rowLabelSize: +this.selectedRowLabelSize.code,
+         rowFieldSize: +this.selectedRowFieldSize.code,
+         rowOrder: this.rowOrder
+      }
+
+      const headers = new HttpHeaders({'Content-Type': 'application/json'});
+
+      this.httpClient.post(`http://localhost:4141/render-manager/v1/page/rows`, body, {headers: headers}).subscribe(
+         (res:any) => {
+            this.pageAllRows.push({
+               idRow: this.rowID,
+               pageID: this.selectedPage.pageID,
+               rowName: this.rowName,
+               rowType: +this.selectedRowType.code,
+               labelSize: +this.selectedRowLabelSize.code,
+               fieldSize: +this.selectedRowFieldSize.code,
+               order: this.rowOrder
+            });
+      
+            this.pageSelectedRows.push({
+               idRow: this.rowID,
+               pageID: this.selectedPage.pageID,
+               rowName: this.rowName,
+               rowType: +this.selectedRowType.code,
+               labelSize: +this.selectedRowLabelSize.code,
+               fieldSize: +this.selectedRowFieldSize.code,
+               order: this.rowOrder
+            });
+            
+            this.rowID = null;
+            this.rowName = null;
+            this.selectedRowType = null;
+            this.selectedRowLabelSize = null;
+            this.selectedRowFieldSize = null;
+            this.rowOrder = null;
+            
+            this.showSuccess(`Se agrego el campo exitosamente`);
+         },
+         (error) => {
+             console.log("error", error);
+         },
+     );
+   };
+
+   updateRow(){
+      const body = {
+         rowID: this.rowID,
+         idPage: this.selectedPage.pageID,
+         rowName: this.rowName,
+         rowType: +this.selectedRowType.code,
+         rowLabelSize: +this.selectedRowLabelSize.code,
+         rowFieldSize: +this.selectedRowFieldSize.code,
+         rowOrder: this.rowOrder
+      }
+
+      const headers = new HttpHeaders({'Content-Type': 'application/json'});
+
+      this.httpClient.patch(`http://localhost:4141/render-manager/v1/page/rows`, body, {headers: headers}).subscribe(
+         (res:any) => {
+            console.log("this.pageAllRows", this.pageAllRows)
+            this.pageAllRows = this.pageAllRows.filter((item) => !(item.pageID === this.selectedPage.pageID && +item.idRow === +this.rowID))
+            
+            console.log("this.pageAllRows actualizado: ", this.pageAllRows)
+            console.log("body: ", {
+               idRow: +this.rowID,
+               pageID: +this.selectedPage.pageID,
+               rowName: this.rowName,
+               rowType: +this.selectedRowType.code,
+               labelSize: +this.selectedRowLabelSize.code,
+               fieldSize: +this.selectedRowFieldSize.code,
+               order: this.rowOrder
+            })
+            this.pageAllRows.push({
+               idRow: +this.rowID,
+               pageID: +this.selectedPage.pageID,
+               rowName: this.rowName,
+               rowType: +this.selectedRowType.code,
+               labelSize: +this.selectedRowLabelSize.code,
+               fieldSize: +this.selectedRowFieldSize.code,
+               order: this.rowOrder
+            });
+      
+            this.pageSelectedRows = this.pageSelectedRows.filter((item)=> !(item.pageID === this.selectedPage.pageID && +item.idRow === +this.rowID))
+            console.log("pageSelectedRows: ", this.pageSelectedRows)
+            console.log("body: ", {
+               idRow: +this.rowID,
+               pageID: +this.selectedPage.pageID,
+               rowName: this.rowName,
+               rowType: +this.selectedRowType.code,
+               labelSize: +this.selectedRowLabelSize.code,
+               fieldSize: +this.selectedRowFieldSize.code,
+               order: +this.rowOrder
+            })
+            this.pageSelectedRows.push({
+               idRow: this.rowID,
+               pageID: this.selectedPage.pageID,
+               rowName: this.rowName,
+               rowType: +this.selectedRowType.code,
+               labelSize: +this.selectedRowLabelSize.code,
+               fieldSize: +this.selectedRowFieldSize.code,
+               order: this.rowOrder
+            });
+            
+            this.rowID = null;
+            this.rowName = null;
+            this.selectedRowType = null;
+            this.selectedRowLabelSize = null;
+            this.selectedRowFieldSize = null;
+            this.rowOrder = null;
+            
+            this.showSuccess(`Se actualizo el campo exitosamente`);
+         },
+         (error) => {
+             console.log("error", error);
+         },
+     );
+   }
+
+   onSelectionRowChange = () => {
+      if (this.selectedPageRow) {
+         this.rowID = this.selectedPageRow.idRow;
+         this.rowName = this.selectedPageRow.rowName;
+         this.selectedRowType = this.rowTypeOptions.find((item) => +item.code === this.selectedPageRow.rowType);
+         this.selectedRowLabelSize = this.rowLabelSizeOptions.find((item) => +item.code === this.selectedPageRow.labelSize);
+         this.selectedRowFieldSize = this.rowFieldSizeOptions.find((item) => +item.code === this.selectedPageRow.fieldSize);
+         this.rowOrder = this.selectedPageRow.order;
+      };
+
+      if (!this.selectedPageRow) {
+         this.rowID = null;
+         this.rowName = null;
+         this.selectedRowType = null;
+         this.selectedRowLabelSize = null;
+         this.selectedRowFieldSize = null;
+         this.rowOrder = null;
+      };
+
+      console.log("here 1 = ", this.selectedPageRow)
+   };
+
+   deleteRow(idRow: number){
+      const headers = new HttpHeaders({'Content-Type': 'application/json'});
+
+      this.httpClient.delete(`http://localhost:4141/render-manager/v1/page/rows/${this.selectedPage.pageID}/${idRow}`,{headers: headers}).subscribe(
+         (res:any) => {
+            this.pageAllRows = this.pageAllRows.filter((item) => !(item.pageID === this.selectedPage.pageID && +item.idRow === +idRow))
+            
+            this.pageSelectedRows = this.pageSelectedRows.filter((item)=> !(item.pageID === this.selectedPage.pageID && +item.idRow === +idRow))
+  
+            this.rowID = null;
+            this.rowName = null;
+            this.selectedRowType = null;
+            this.selectedRowLabelSize = null;
+            this.selectedRowFieldSize = null;
+            this.rowOrder = null;
+            
+            this.showSuccess(`Se elimino el campo exitosamente`);
+         },
+         (error) => {
+             console.log("error", error);
+         },
+     );
+   }
+
+   deletePage(idPage: number){
+      const headers = new HttpHeaders({'Content-Type': 'application/json'});
+
+      this.httpClient.delete(`http://localhost:4141/render-manager/v1/page/${idPage}`,{headers: headers}).subscribe(
+         (res:any) => {
+            this.pageAllRows = this.pageAllRows?.filter((item) => +item.pageID !== +idPage)
+
+            this.listPageSaved = this.listPageSaved?.filter((item) => +item.idPage !== +idPage)
+            this.pageList = this.pageList?.filter((item) => +item.pageID !== +idPage)
+            
+            if (this.selectedPage){
+               this.selectedPage = null;
+               this.pageID = undefined;
+               this.pageName = '';
+               this.selectedPageType = undefined;
+               this.selectedPageOrder = undefined;
+               this.selectedPageHeaderHeigth  = undefined;
+               this.selectedPageFieldType  = undefined;
+               this.selectedPageFieldStyle  = undefined;
+               this.selectedPageGridID  = undefined; 
+               this.selectedPageWidthSize  = undefined;
+               this.headerColor  = undefined;
+               this.TableHeaderColor  = undefined;
+               this.fontHeaderColor  = undefined;
+               this.fontTableHeaderColor  = undefined;
+               this.optionalSettings = [];
+               this.titlePage = 'Create New Page';
+               this.subtitlePage = '';
+               this.pageSelectedRows = [];
+            }
+
+            this.showSuccess(`Se elimino la pagina exitosamente`);
+         },
+         (error) => {
+             console.log("error", error);
+         },
+     );
+   }
+};
