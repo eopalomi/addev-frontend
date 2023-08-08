@@ -1,6 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { Component } from '@angular/core';
+import { switchMap } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
 
 interface dropdownOptions {
   name: string;
@@ -61,6 +63,7 @@ export class CreatePageComponent {
    pageID: number;
    containerID: number;
    pageName: string;
+   disabledContainerID: boolean = false;
 
    pageTypeOptions: dropdownOptions [] = [
       {name:'Form', code: "F"},
@@ -265,10 +268,6 @@ export class CreatePageComponent {
      );
    };
 
-   showSuccess(msg: string) {
-      this.messageService.add({ severity: 'success', summary: 'OK', detail: msg});
-   };
-
    update = () => {
       const pageOptions: PageDTO = {
          idPage: this.pageID,
@@ -313,6 +312,45 @@ export class CreatePageComponent {
             });
 
             this.showSuccess(`Pagina Actualizada exitosamente`);
+         },
+         (error) => {
+             console.log("error", error);
+         },
+     );
+   }
+
+   deletePage(idPage: number){
+      const headers = new HttpHeaders({'Content-Type': 'application/json'});
+
+      this.httpClient.delete(`http://localhost:4141/render-manager/v1/page/${idPage}`,{headers: headers}).subscribe(
+         (res:any) => {
+            this.pageAllRows = this.pageAllRows?.filter((item) => +item.pageID !== +idPage)
+
+            this.listPageSaved = this.listPageSaved?.filter((item) => +item.idPage !== +idPage)
+            this.pageList = this.pageList?.filter((item) => +item.pageID !== +idPage)
+            
+            if (this.selectedPage){
+               this.selectedPage = null;
+               this.pageID = undefined;
+               this.pageName = '';
+               this.selectedPageType = undefined;
+               this.selectedPageOrder = undefined;
+               this.selectedPageHeaderHeigth  = undefined;
+               this.selectedPageFieldType  = undefined;
+               this.selectedPageFieldStyle  = undefined;
+               this.selectedPageGridID  = undefined; 
+               this.selectedPageWidthSize  = undefined;
+               this.headerColor  = undefined;
+               this.TableHeaderColor  = undefined;
+               this.fontHeaderColor  = undefined;
+               this.fontTableHeaderColor  = undefined;
+               this.optionalSettings = [];
+               this.titlePage = 'Create New Page';
+               this.subtitlePage = '';
+               this.pageSelectedRows = [];
+            }
+
+            this.showSuccess(`Se elimino la pagina exitosamente`);
          },
          (error) => {
              console.log("error", error);
@@ -571,42 +609,125 @@ export class CreatePageComponent {
      );
    }
 
-   deletePage(idPage: number){
+   loadContainer = ()=> {
+      console.log("this.containerID", this.containerID);
       const headers = new HttpHeaders({'Content-Type': 'application/json'});
 
-      this.httpClient.delete(`http://localhost:4141/render-manager/v1/page/${idPage}`,{headers: headers}).subscribe(
-         (res:any) => {
-            this.pageAllRows = this.pageAllRows?.filter((item) => +item.pageID !== +idPage)
-
-            this.listPageSaved = this.listPageSaved?.filter((item) => +item.idPage !== +idPage)
-            this.pageList = this.pageList?.filter((item) => +item.pageID !== +idPage)
+      this.httpClient.get(`http://localhost:4141/render-manager/v1/container/${this.containerID}`, {headers: headers}).pipe(
+         switchMap((res: any) =>{
+            console.log("res 1", res)
             
-            if (this.selectedPage){
-               this.selectedPage = null;
-               this.pageID = undefined;
-               this.pageName = '';
-               this.selectedPageType = undefined;
-               this.selectedPageOrder = undefined;
-               this.selectedPageHeaderHeigth  = undefined;
-               this.selectedPageFieldType  = undefined;
-               this.selectedPageFieldStyle  = undefined;
-               this.selectedPageGridID  = undefined; 
-               this.selectedPageWidthSize  = undefined;
-               this.headerColor  = undefined;
-               this.TableHeaderColor  = undefined;
-               this.fontHeaderColor  = undefined;
-               this.fontTableHeaderColor  = undefined;
-               this.optionalSettings = [];
-               this.titlePage = 'Create New Page';
-               this.subtitlePage = '';
-               this.pageSelectedRows = [];
-            }
+            const pageObservables = (res.container.pages).map(ele => {
+               return this.httpClient.get(`http://localhost:4141/render-manager/v1/page/${ele.idPage}`, {headers: headers});
+            });
 
-            this.showSuccess(`Se elimino la pagina exitosamente`);
+            return forkJoin(pageObservables);
+         })
+      )
+      .pipe(
+         switchMap((res: any) =>{
+            console.log("res 2", res);
+            
+            (res).forEach(ele => {
+               console.log("ele: ", ele.data);
+               const {
+                  idPage,
+                  containerId,
+                  pageName,
+                  pageType,
+                  orderPosition,
+                  headerHeight,
+                  fieldType,
+                  fieldStyle,
+                  numberOfGrid,
+                  widthSize,
+                  headerColor,
+                  tableHeaderColor,
+                  fontHeaderColor,
+                  fonttableHeaderColor,
+                  paginator,
+                  showHeaderTable,
+                  search,
+                  devMode,
+                  tableCheck,
+                  pageTitle,
+                  tableSort,
+               } = ele.data;
+
+               this.listPageSaved.push({
+                  idPage,
+                  containerId,
+                  pageName,
+                  pageType,
+                  orderPosition,
+                  headerHeight,
+                  fieldType,
+                  fieldStyle,
+                  numberOfGrid,
+                  widthSize,
+                  headerColor,
+                  tableHeaderColor,
+                  fontHeaderColor,
+                  fonttableHeaderColor,
+                  paginator,
+                  showHeaderTable,
+                  search,
+                  devMode,
+                  tableCheck,
+                  pageTitle,
+                  tableSort,
+               });
+            
+               this.pageList.push({
+                 containerID: containerId,
+                 pageID: idPage,
+                 pageName: pageName,
+                 fieldsQuantity: 0
+               });
+            });
+
+            const rowsObservables = res.map(ele => {
+               return this.httpClient.get(`http://localhost:4141/render-manager/v1/page/rows/${ele.data.idPage}`, {headers: headers});
+            });
+
+            return forkJoin(rowsObservables);
+         })
+      )
+      .subscribe(
+         (res:any) => {
+            res.forEach(ele => {
+               ele.data.forEach(ele => {
+                  this.pageAllRows.push({
+                     idRow: ele.rowID,
+                     pageID: ele.idPage,
+                     rowName: ele.rowName,
+                     rowType: +ele.rowType,
+                     labelSize: +ele.rowLabelSize,
+                     fieldSize: +ele.rowFieldSize,
+                     order: +ele.rowOrder
+                  });
+
+                  this.pageSelectedRows.push({
+                     idRow: ele.rowID,
+                     pageID: ele.idPage,
+                     rowName: ele.rowName,
+                     rowType: +ele.rowType,
+                     labelSize: +ele.rowLabelSize,
+                     fieldSize: +ele.rowFieldSize,
+                     order: +ele.rowOrder
+                  });
+               });
+            });
+            this.disabledContainerID = true;
          },
          (error) => {
              console.log("error", error);
          },
      );
+
    }
+
+   showSuccess(msg: string) {
+      this.messageService.add({ severity: 'success', summary: 'OK', detail: msg});
+   };
 };

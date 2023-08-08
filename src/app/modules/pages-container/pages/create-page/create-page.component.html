@@ -13,7 +13,7 @@
                 <div class="formgrid grid p-fluid">
                     <div class="field col-12 md:col-2">
                         <label htmlFor="username">Container ID</label>
-                        <input pInputText id="page_id" placeholder="Enter container ID" aria-describedby="username-help" [(ngModel)]="containerID" />
+                        <input pInputText [disabled]="disabledContainerID" id="page_id" placeholder="Enter container ID" aria-describedby="username-help" [(ngModel)]="containerID" />
                     </div>
                     <div class="field col-12 md:col-6">
                         <label htmlFor="pagename">Page Name</label>
@@ -100,6 +100,10 @@
                         <p-button *ngIf="!selectedPage" for="column6" label="Save" (click)="savePage()" icon="pi pi-save"></p-button>
                         <p-button *ngIf="selectedPage" for="column6" label="Update" (click)="update()" icon="pi pi-save"></p-button>
                     </div>
+                    <div class="field col-1 md:col-1">
+                        <label for="column9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <p-button for="column9" label="" (click)="loadContainer()" icon="pi pi-refresh"></p-button>
+                    </div>
                 </div>
         
             </p-card>
@@ -110,7 +114,7 @@
                     [value]="pageList" 
                     [tableStyle]="{ 'width': '100%'}" 
                     [paginator]="true"
-                    [rows]="5"
+                    [rows]="10"
                     [showCurrentPageReport]="true"
                     selectionMode="single" 
                     [(selection)]="selectedPage" 
